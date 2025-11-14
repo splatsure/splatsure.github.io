@@ -1,0 +1,143 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <meta name="description"
+        content="SplatSuRe introduces selective super-resolution for 3D Gaussian Splatting by using camera–scene geometry to detect undersampled regions and inject high-frequency detail only where needed, eliminating multi-view inconsistencies and yielding sharper, higher-fidelity results across complex datasets.">
+    <meta name="keywords"
+        content="3D Gaussian Splatting, 3DGS, novel view synthesis, super-resolution, selective super-resolution, multi-view consistency, high-frequency detail, low-resolution views, undersampled regions, camera pose geometry, dynamic reconstruction, high-fidelity rendering, perceptual quality, multi-view SR, Tanks and Temples, Deep Blending, Mip-NeRF 360, scene geometry–aware SR, Gaussian Splatting super-resolution, high-resolution rendering, multi-view reconstruction">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>SplatSuRe: Selective Super-Resolution for Multi-view Consistent 3D Gaussian Splatting</title>
+    <!-- Google tag (gtag.js) -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-P1QY74DWKY"></script>
+    <script>
+        window.dataLayer = window.dataLayer || [];
+        function gtag() { dataLayer.push(arguments); }
+        gtag('js', new Date());
+
+        gtag('config', 'G-P1QY74DWKY');
+    </script>
+
+    <link href="https://fonts.googleapis.com/css?family=Google+Sans|Noto+Sans|Castoro" rel="stylesheet">
+
+    <link rel="stylesheet" href="./static/css/bulma.min.css">
+    <link rel="stylesheet" href="./static/css/bulma-carousel.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css"
+        integrity="sha512-Kc323vGBEqzTmouAECnVceyQqyqdsSiqLQISBL29aUW4U/M7pSPA/gEUZQqv1cwx4OnYxTxve5UMg5GT6L4JJg=="
+        crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/jpswalsh/academicons@1/css/academicons.min.css">
+    <link rel="stylesheet" href="./static/css/index.css">
+    <link rel="icon" href="./static/images/favicon.ico">
+
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <script defer src="./static/js/fontawesome.all.min.js"></script>
+    <script src="./static/js/bulma-carousel.min.js"></script>
+    <script src="./static/js/index.js"></script>
+    <script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+
+</head>
+
+<body>
+    <section class="hero">
+        <div class="hero-body">
+            <div class="container is-max-desktop">
+                <div class="columns is-centered">
+                    <div class="column has-text-centered">
+                        <h1 class="title is-1 publication-title">SplatSuRe: Selective Super-Resolution for Multi-view
+                            Consistent 3D Gaussian Splatting</h1>
+                        <h1 style="font-size:1.5rem">Coming Soon!<br></h1>
+                        <div class="is-size-5 publication-authors">
+                            <span class="author-block">
+                                <a href="https://pranav-asthana.github.io/">Pranav Asthana</a>,
+                            </span>
+                            <span class="author-block">
+                                <a href="https://www.cs.umd.edu/~hanson/">Alex Hanson</a>,</span>
+                            <span class="author-block">
+                                <a href="https://tuallen.github.io">Allen Tu</a>,</span>
+                            <span class="author-block">
+                                <a href="https://www.cs.umd.edu/~tomg/">Tom Goldstein</a>,
+                            </span>
+                            <span class="author-block">
+                                <a href="https://www.cs.umd.edu/~zwicker/">Matthias Zwicker</a>,
+                            </span>
+                            <span class="author-block">
+                                <a href="https://www.cs.umd.edu/~varshney/">Amitabh Varshney</a>
+                            </span>
+                        </div>
+
+                        <div class="is-size-5 publication-authors">
+                            <span class="author-block">University of Maryland, College Park</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section class="hero teaser">
+        <div class="container is-max-desktop">
+            <div class="hero-body">
+                <picture>
+                    <source srcset="./static/images/teaser.webp" type="image/webp">
+                    <img src="./static/images/teaser.png" alt="Teaser" loading="lazy" style="width:100%;height:auto;">
+                </picture>
+            </div>
+        </div>
+    </section>
+
+    <section class="section">
+        <div class="container is-max-desktop">
+            <div class="columns is-centered has-text-centered">
+                <div class="column is-four-fifths">
+                    <h2 class="title is-3">Abstract</h2>
+                    <div class="content has-text-justified">
+                        <p>
+                            3D Gaussian Splatting (3DGS) enables high-quality novel view synthesis, motivating interest
+                            in generating higher-resolution renders than those available during training. A natural
+                            strategy is to apply <b>super-resolution (SR)</b> to low-resolution (LR) input views, but
+                            independently enhancing each image introduces multi-view inconsistencies, leading to blurry
+                            renders.
+                        </p>
+
+                        <p>
+                            Prior methods attempt to mitigate these inconsistencies through learned neural
+                            components, temporally consistent video priors, or joint optimization on LR and SR views,
+                            but all uniformly apply SR across every image. In contrast, our key insight is that
+                            close-up LR views may contain high-frequency information for regions also captured in more
+                            distant views, and that <b>we can use the camera pose relative to scene geometry to inform
+                                where to add SR content</b>.
+                        </p>
+
+                        <p>
+                            Building from this insight, we propose <b>SplatSuRe</b>, a method that selectively applies
+                            SR content only in undersampled regions lacking high-frequency supervision, yielding sharper
+                            and more consistent results. Across Tanks & Temples, Deep Blending and Mip-NeRF 360,
+                            <b>our approach surpasses baselines in both fidelity and perceptual quality</b>. Notably,
+                            our
+                            gains are most significant in localized foreground regions where higher detail is desired.
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <footer class="footer">
+        <div class="container">
+            <div class="columns is-centered">
+                <div class="content has-text-centered">
+                    <p>
+                        We thank the authors of <a rel="nerfies"
+                            href="https://github.com/nerfies/nerfies.github.io/tree/main">Nerfies</a>
+                        for generously open-sourcing the templates used in this website.
+                    </p>
+                </div>
+            </div>
+        </div>
+        </div>
+    </footer>
+
+</body>
+
+</html>

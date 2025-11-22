@@ -44,9 +44,10 @@
             <div class="container is-max-desktop">
                 <div class="columns is-centered">
                     <div class="column has-text-centered">
-                        <h1 class="title is-1 publication-title">SplatSuRe: Selective Super-Resolution<br> for Multi-view
+                        <h1 class="title is-1 publication-title">SplatSuRe: Selective Super-Resolution<br> for
+                            Multi-view
                             Consistent<br>3D Gaussian Splatting</h1>
-                        <h1 style="font-size:1.5rem">Coming Soon!<br></h1>
+                        <h1 style="font-size:1.5rem">Coming Soon!</h1>
                         <div class="is-size-5 publication-authors">
                             <span class="author-block">
                                 <a href="https://pranav-asthana.github.io/">Pranav Asthana</a>,
@@ -69,6 +70,38 @@
                         <div class="is-size-5 publication-authors">
                             <span class="author-block">University of Maryland, College Park</span>
                         </div>
+
+                        <!-- <div class="column has-text-centered">
+                            <div class="publication-links">
+                                <span class="link-block">
+                                    <a href=""
+                                        class="external-link button is-normal is-rounded is-dark">
+                                        <span class="icon">
+                                            <i class="fas fa-file-pdf"></i>
+                                        </span>
+                                        <span>Paper</span>
+                                    </a>
+                                </span>
+                                <span class="link-block">
+                                    <a href=""
+                                        class="external-link button is-normal is-rounded is-dark">
+                                        <span class="icon">
+                                            <i class="ai ai-arxiv"></i>
+                                        </span>
+                                        <span>arXiv</span>
+                                    </a>
+                                </span>
+                                <span class="link-block">
+                                    <a href=""
+                                        class="external-link button is-normal is-rounded is-dark">
+                                        <span class="icon">
+                                            <i class="fab fa-github"></i>
+                                        </span>
+                                        <span>Code</span>
+                                    </a>
+                                </span>
+                            </div>
+                        </div> -->
                     </div>
                 </div>
             </div>
@@ -95,7 +128,7 @@
                         <p>
                             3D Gaussian Splatting (3DGS) enables high-quality novel view synthesis, motivating interest
                             in generating higher-resolution renders than those available during training. A natural
-                            strategy is to apply <b>super-resolution (SR)</b> to low-resolution (LR) input views, but
+                            strategy is to apply super-resolution (SR) to low-resolution (LR) input views, but
                             independently enhancing each image introduces multi-view inconsistencies, leading to blurry
                             renders.
                         </p>
@@ -105,17 +138,17 @@
                             components, temporally consistent video priors, or joint optimization on LR and SR views,
                             but all uniformly apply SR across every image. In contrast, our key insight is that
                             close-up LR views may contain high-frequency information for regions also captured in more
-                            distant views, and that <b>we can use the camera pose relative to scene geometry to inform
-                                where to add SR content</b>.
+                            distant views, and that we can use the camera pose relative to scene geometry to inform
+                            where to add SR content.
                         </p>
 
                         <p>
-                            Building from this insight, we propose <b>SplatSuRe</b>, a method that selectively applies
+                            Building from this insight, we propose SplatSuRe, a method that selectively applies
                             SR content only in undersampled regions lacking high-frequency supervision, yielding sharper
                             and more consistent results. Across Tanks & Temples, Deep Blending and Mip-NeRF 360,
-                            <b>our approach surpasses baselines in both fidelity and perceptual quality</b>. Notably,
-                            our
-                            gains are most significant in localized foreground regions where higher detail is desired.
+                            our approach surpasses baselines in both fidelity and perceptual quality. Notably,
+                            our gains are most significant in localized foreground regions where higher detail is
+                            desired.
                         </p>
                     </div>
                 </div>
@@ -123,18 +156,196 @@
         </div>
     </section>
 
-    <footer class="footer">
-        <div class="container">
-            <div class="columns is-centered">
-                <div class="content has-text-centered">
-                    <p>
-                        We thank the authors of <a rel="nerfies"
-                            href="https://github.com/nerfies/nerfies.github.io/tree/main">Nerfies</a>
-                        for generously open-sourcing the templates used in this website.
-                    </p>
+    <section class="section">
+        <div class="container is-max-desktop">
+            <div class="columns is-centered has-text-centered">
+                <div class="column is-four-fifths">
+                    <h2 class="title is-3">Method</h2>
+                    <div class="content has-text-justified">
+                        <p>
+                            Prior approaches that integrate super-resolution (SR) into the 3DGS training pipeline apply
+                            it <em>uniformly</em> across every image, even in regions that are already well-supervised
+                            by nearby LR views. Since generated details are not necessarily multi-view consistent,
+                            injecting them everywhere can introduce geometric or texture inconsistencies, leading to
+                            blurred regions in the model.
+                        </p>
+
+                        <img src="static/images/pipeline.webp" alt="Pipeline"
+                            style="margin-bottom: 1.5rem; max-width: 100%; height: auto;">
+
+                        <p>
+                            <b>SplatSuRe</b> addresses this through a selective, geometry-aware strategy that
+                            determines where SR should influence optimization. Instead of treating all pixels equally,
+                            we exploit the multi-view sampling pattern of each Gaussian to determine which regions are
+                            sufficiently constrained by LR observations and which require additional SR guidance. To
+                            achieve this, we introduce:
+                        </p>
+
+                        <ol>
+                            <li><b>a per-Gaussian score</b> that measures how well it is sampled across training
+                                views, and</li>
+                            <li><b>a per-view weight map</b> that highlights undersampled areas while suppressing SR
+                                where LR supervision is already reliable.</li>
+                        </ol>
+
+                        <p>
+                            Incorporating these weight maps into a combined LR–SR objective allows detail to be
+                            selectively injected where it is beneficial while preserving multi-view consistency
+                            elsewhere.
+                        </p>
+
+                    </div>
+
+                    <h4 class="title is-4">Gaussian Fidelity Score</h4>
+                    <div class="content has-text-justified">
+                        <p>
+                            Images capturing a scene do not contribute equal amounts of high-frequency information for
+                            3D reconstruction. A nearby low-resolution (LR) image can capture finer structure than a
+                            distant high-resolution (HR) view. SplatSuRe leverages this disparity to identify which 3D
+                            regions are already well-supervised and which require additional guidance from
+                            super-resolution (SR).
+                        </p>
+
+                        <div class="has-text-centered" style="margin-bottom: 1.5rem;">
+                            <img src="static/images/disparity.webp" alt="Disparity"
+                                style="max-width: 40%; height: auto;">
+                        </div>
+
+                        <p>
+                            For each Gaussian \( \mathcal{G}^i \), we measure its screen-space footprint \( r^i_t \) in
+                            every training view \( t \). These radii describe how finely each Gaussian is observed
+                            across
+                            cameras. We then compute its sampling ratio:
+                        </p>
+
+                        <p style="text-align:center;">
+                            \[
+                            r^i_{min} = \min_{t\in T}{r^i_t}, \qquad
+                            r^i_{max} = \max_{t\in T}{r^i_t}, \qquad
+                            \rho^i = r^i_{max}/r^i_{min}.
+                            \]
+                        </p>
+
+                        <p>
+                            A high ratio \( \rho^i \) indicates that the Gaussian is sampled at varying frequencies
+                            across views, meaning some views observe it with high fidelity and can supervise the others. A
+                            ratio close to one indicates uniform sampling across views, indicating that this region
+                            requires SR to add generated details. We convert this ratio into a normalized fidelity
+                            score:
+                        </p>
+
+                        <p style="text-align:center;">
+                            \[
+                            \mathrm{score}_{\mathcal{G}^i} = \sigma\!\left( \frac{\rho^i - \tau}{k} \right),
+                            \]
+                        </p>
+
+                        <p>
+                            where \( \tau \) is a threshold and \( k \) controls transition smoothness.
+                            Gaussians in less than three views are assigned a score of zero. Higher scores
+                            correspond to Gaussians that are already well-captured by LR supervision, while lower
+                            scores identify regions where SR should be applied more heavily.
+                        </p>
+                    </div>
+
+                    <h4 class="title is-4">Super-Resolution Region Selection</h4>
+                    <div class="content has-text-justified">
+                        <p>
+                            Supervising high-resolution model updates requires pixel-wise weight maps for each
+                            training view. For a given training view \( t \), we identify the set of Gaussians whose
+                            maximal radius occurs in its rendered view:
+                        </p>
+
+                        <p style="text-align:center;">
+                            \[
+                            \mathcal{M}(t) = \{\mathcal{G}^i\ |\ t = \arg\max_{t \in T}r^i_t \; \forall i \in N \}.
+                            \]
+                        </p>
+
+                        <p>
+                            These are Gaussians that do not receive higher-frequency information from another view.
+                            We splat both the Gaussian fidelity scores and this closest-view mask to form a raw weight
+                            map:
+                        </p>
+
+                        <p style="text-align:center;">
+                            \[
+                            W'_t = \bigl(1 - \mathrm{Render}(\mathrm{score}_{\mathcal{G}})\bigr) +
+                            \mathrm{Render}(\mathbf{1}_{\mathcal{M}(t)}(\mathcal{G})).
+                            \]
+                        </p>
+
+                        <p>
+                            The first term directs SR toward undersampled regions with low fidelity scores, while the
+                            second targets areas best observed by the current view because no other camera provides
+                            higher-resolution information. After normalization, the resulting weight map \( W_t \in
+                            [0,1]
+                            \) precisely identifies where SR should contribute during training, enabling SplatSuRe to
+                            enhance detail in poorly sampled regions while preserving multi-view consistency in
+                            well-supervised areas.
+                        </p>
+                    </div>
                 </div>
             </div>
         </div>
+    </section>
+
+    <!-- <section class="hero">
+        <div class="hero-body">
+            <div class="container is-max-desktop content has-text-centered">
+                <h2 class="title is-3">Results</h2>
+                <h1 style="font-size:1.5rem">Coming Soon!</h1>
+            </div>
+        </div>
+    </section> -->
+
+    <section class="section" id="BibTeX">
+        <div class="container is-max-desktop content">
+            <h2 class="title">BibTeX</h2>
+            <pre><code>@article{Asthana2025SplatSuRe,
+    author    = {Asthana, Pranav and Hanson, Alex and Tu, Allen and Goldstein, Tom and Zwicker, Matthias and Varshney, Amitabh},
+    title     = {SplatSuRe: Selective Super-Resolution for Multi-view Consistent 3D Gaussian Splatting},
+    journal   = {Preprint},
+    year      = {2025},
+    url       = {https://splatsure.github.io/}
+}</code></pre>
+        </div>
+    </section>
+
+    <footer class="footer">
+        <div class="container">
+            <!-- <div class="content has-text-centered">
+                <a class="icon-link" href="" class="external-link">
+                    <i class="fas fa-file-pdf"></i>
+                </a>
+                <a class="icon-link" href="" class="external-link" disabled>
+                    <i class="fab fa-github"></i>
+                </a>
+            </div> -->
+            <div class="columns is-centered">
+                <div class="column is-8">
+                    <div class="content">
+                        <p>
+                            This research is based upon work supported by the Office of the Director of National
+                            Intelligence (ODNI), Intelligence Advanced Research Projects Activity (IARPA), via IARPA
+                            R&D Contract No. 140D0423C0076. The views and conclusions contained herein are those of the
+                            authors and should not be interpreted as necessarily representing the official policies or
+                            endorsements, either expressed or implied, of the ODNI, IARPA, or the U.S. Government. The
+                            U.S. Government is authorized to reproduce and distribute reprints for Governmental purposes
+                            notwithstanding any copyright annotation thereon. This work was made possible by NSF Grants
+                            21-37229 and 22-35050, DARPA TIAMAT, and the NSF TRAILS Institute (2229885). Additional
+                            support was provided by Coefficient Giving.
+                        </p>
+                    </div>
+                    <div class="content has-text-centered">
+                        <p>
+                            We thank the authors of <a rel="nerfies"
+                                href="https://github.com/nerfies/nerfies.github.io/tree/main">Nerfies</a>
+                            for generously open-sourcing the templates used in this website.
+                        </p>
+                    </div>
+                </div>
+            </div>
         </div>
     </footer>
 

@@ -181,7 +181,7 @@ body {
 .bal-container-small {
   position: relative;
   width: auto;
-  height: 340px;
+  height: 320px;
   cursor: grab;
   overflow: hidden;
   border-radius: 10px;

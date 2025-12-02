@@ -34,8 +34,10 @@
     <script defer src="./static/js/fontawesome.all.min.js"></script>
     <script src="./static/js/bulma-carousel.min.js"></script>
     <script src="./static/js/script.js"></script>
+    <script src="./static/js/video_comparison.js"></script>
     <script src="./static/js/index.js"></script>
     <script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+
 </head>
 
 <body>
@@ -104,13 +106,12 @@
         </div>
     </section>
 
-    <section class="hero teaser">
-        <div class="container is-max-desktop">
-            <div class="hero-body">
-                <picture>
-                    <source srcset="./static/images/teaser.webp" type="image/webp">
-                    <img src="./static/images/teaser.png" alt="Teaser" loading="lazy" style="width:100%;height:auto;">
-                </picture>
+    <section class="hero">
+        <div class="hero-teaser">
+            <div class="video-compare-container">
+                <video class="video" width=100% id="v2" loop playsinline autoplay muted src="static/videos/church.mp4"
+                    onplay="resizeAndPlay(this)"></video>
+                <canvas height=0 class="videoMerge" id="v2Merge"></canvas>
             </div>
         </div>
     </section>

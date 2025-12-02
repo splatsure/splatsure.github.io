@@ -180,12 +180,13 @@ body {
 
 .bal-container-small {
   position: relative;
-  width: auto;
-  height: 320px;
+  width: 100%;
+  height: 350px;
   cursor: grab;
   overflow: hidden;
   border-radius: 10px;
-  margin: 0px;
+  margin: 0 auto;
+  box-sizing: border-box;
 }
 
 .bal-container-big {
@@ -393,7 +394,7 @@ body {
 
 #comparison-carousel .item {
   margin: 0 auto !important;
-  max-width: 92%;
+  max-width: 94%;
   padding: 1rem 0;
 }
 

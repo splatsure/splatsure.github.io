@@ -398,3 +398,13 @@ body {
   padding: 1rem 0;
 }
 
+.video-compare-container {
+  width: 60%;
+  margin: 0 auto; 
+}
+
+.video-compare-container canvas {
+  width: 100%;
+  height: auto;
+  display: block;
+}

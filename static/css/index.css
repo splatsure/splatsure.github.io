@@ -275,6 +275,16 @@ body {
   box-shadow: 0 0 8px rgb(12, 12, 12);
 }
 
+.bal-handle::before {
+  bottom: 50%;
+  margin-bottom: 20px;
+}
+
+.bal-handle::after {
+  top: 50%;
+  margin-top: 20px;
+}
+
 /* ======= CAROUSEL CONTROLS ======= */
 #comparison-carousel,
 #comparison-carousel .carousel,

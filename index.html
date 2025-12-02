@@ -33,6 +33,7 @@
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
     <script defer src="./static/js/fontawesome.all.min.js"></script>
     <script src="./static/js/bulma-carousel.min.js"></script>
+    <script src="./static/js/script.js"></script>
     <script src="./static/js/index.js"></script>
     <script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
 
@@ -47,7 +48,6 @@
                         <h1 class="title is-1 publication-title">SplatSuRe: Selective Super-Resolution<br> for
                             Multi-view
                             Consistent<br>3D Gaussian Splatting</h1>
-                        <h1 style="font-size:1.5rem">Coming Soon!</h1>
                         <div class="is-size-5 publication-authors">
                             <span class="author-block">
                                 <a href="https://pranav-asthana.github.io/">Pranav Asthana</a>,
@@ -71,11 +71,10 @@
                             <span class="author-block">University of Maryland, College Park</span>
                         </div>
 
-                        <!-- <div class="column has-text-centered">
+                        <div class="column has-text-centered">
                             <div class="publication-links">
                                 <span class="link-block">
-                                    <a href=""
-                                        class="external-link button is-normal is-rounded is-dark">
+                                    <a href="" class="external-link button is-normal is-rounded is-dark">
                                         <span class="icon">
                                             <i class="fas fa-file-pdf"></i>
                                         </span>
@@ -83,8 +82,7 @@
                                     </a>
                                 </span>
                                 <span class="link-block">
-                                    <a href=""
-                                        class="external-link button is-normal is-rounded is-dark">
+                                    <a href="" class="external-link button is-normal is-rounded is-dark">
                                         <span class="icon">
                                             <i class="ai ai-arxiv"></i>
                                         </span>
@@ -92,8 +90,7 @@
                                     </a>
                                 </span>
                                 <span class="link-block">
-                                    <a href=""
-                                        class="external-link button is-normal is-rounded is-dark">
+                                    <a href="" class="external-link button is-normal is-rounded is-dark">
                                         <span class="icon">
                                             <i class="fab fa-github"></i>
                                         </span>
@@ -101,7 +98,7 @@
                                     </a>
                                 </span>
                             </div>
-                        </div> -->
+                        </div>
                     </div>
                 </div>
             </div>
@@ -291,14 +288,357 @@
         </div>
     </section>
 
-    <!-- <section class="hero">
+    <section class="hero">
         <div class="hero-body">
             <div class="container is-max-desktop content has-text-centered">
                 <h2 class="title is-3">Results</h2>
-                <h1 style="font-size:1.5rem">Coming Soon!</h1>
+            </div>
+
+            <div class="container">
+                <div class=" has-text-centered">
+                    <div id="comparison-carousel" class="carousel results-carousel">
+
+                        <!-- === Page 1 === -->
+                        <div class="item">
+                            <div class="columns is-multiline is-centered">
+                                <div class="column is-half">
+                                    <div id="example1" class="bal-container-small">
+                                        <div class="bal-after">
+                                            <img src="./static/images/tnt_train.00000.srgs_manualBubbles.webp"
+                                                alt="SRGS" loading="lazy">
+                                            <div class="bal-afterPosition afterLabel" style="z-index:1;">
+                                                SRGS [Feng 2024]
+                                            </div>
+                                        </div>
+                                        <div class="bal-before" style="width:96.4968152866242%;">
+                                            <div class="bal-before-inset" style="width: 539px;">
+                                                <img src="./static/images/tnt_train.00000.ours_manualBubbles.webp"
+                                                    alt="Ours" loading="lazy">
+                                                <div class="bal-beforePosition beforeLabel">
+                                                    SplatSuRe (Ours)
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="bal-handle" style="left:96.4968152866242%;">
+                                            <span class=" handle-left-arrow"></span>
+                                            <span class="handle-right-arrow"></span>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="column is-half">
+                                    <div id="example2" class="bal-container-small">
+                                        <div class="bal-after">
+                                            <img src="./static/images/tnt_truck.00031.srgs_manualBubbles.webp"
+                                                alt="SRGS" loading="lazy">
+                                            <div class="bal-afterPosition afterLabel" style="z-index:1;">
+                                                SRGS [Feng 2024]
+                                            </div>
+                                        </div>
+                                        <div class="bal-before" style="width:96.4968152866242%;">
+                                            <div class="bal-before-inset" style="width: 539px;">
+                                                <img src="./static/images/tnt_truck.00031.ours_manualBubbles.webp"
+                                                    alt="Ours" loading="lazy">
+                                                <div class="bal-beforePosition beforeLabel">
+                                                    SplatSuRe (Ours)
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="bal-handle" style="left:96.4968152866242%;">
+                                            <span class=" handle-left-arrow"></span>
+                                            <span class="handle-right-arrow"></span>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="column is-half">
+                                    <div id="example3" class="bal-container-small">
+                                        <div class="bal-after">
+                                            <img src="./static/images/db_drjohnson.00032.srgs_manualBubbles.webp"
+                                                alt="SRGS" loading="lazy">
+                                            <div class="bal-afterPosition afterLabel" style="z-index:1;">
+                                                SRGS [Feng 2024]
+                                            </div>
+                                        </div>
+                                        <div class="bal-before" style="width:96.4968152866242%;">
+                                            <div class="bal-before-inset" style="width: 539px;">
+                                                <img src="./static/images/db_drjohnson.00032.ours_manualBubbles.webp"
+                                                    alt="Ours" loading="lazy">
+                                                <div class="bal-beforePosition beforeLabel">
+                                                    SplatSuRe (Ours)
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="bal-handle" style="left:96.4968152866242%;">
+                                            <span class=" handle-left-arrow"></span>
+                                            <span class="handle-right-arrow"></span>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="column is-half">
+                                    <div id="example4" class="bal-container-small">
+                                        <div class="bal-after">
+                                            <img src="./static/images/m360_counter.00010.srgs_manualBubbles.webp"
+                                                alt="SRGS" loading="lazy">
+                                            <div class="bal-afterPosition afterLabel" style="z-index:1;">
+                                                SRGS [Feng 2024]
+                                            </div>
+                                        </div>
+                                        <div class="bal-before" style="width:96.4968152866242%;">
+                                            <div class="bal-before-inset" style="width: 539px;">
+                                                <img src="./static/images/m360_counter.00010.ours_manualBubbles.webp"
+                                                    alt="Ours" loading="lazy">
+                                                <div class="bal-beforePosition beforeLabel">
+                                                    SplatSuRe (Ours)
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="bal-handle" style="left:96.4968152866242%;">
+                                            <span class=" handle-left-arrow"></span>
+                                            <span class="handle-right-arrow"></span>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- === Page 2 === -->
+                        <div class="item">
+                            <div class="columns is-multiline is-centered">
+                                <div class="column is-half">
+                                    <div id="example5" class="bal-container-small">
+                                        <div class="bal-after">
+                                            <img src="./static/images/tnt_ignatius.00007.srgs_manualBubbles.webp"
+                                                alt="SRGS" loading="lazy">
+                                            <div class="bal-afterPosition afterLabel" style="z-index:1;">
+                                                SRGS [Feng 2024]
+                                            </div>
+                                        </div>
+                                        <div class="bal-before" style="width:96.4968152866242%;">
+                                            <div class="bal-before-inset" style="width: 539px;">
+                                                <img src="./static/images/tnt_ignatius.00007.ours_manualBubbles.webp"
+                                                    alt="Ours" loading="lazy">
+                                                <div class="bal-beforePosition beforeLabel">
+                                                    SplatSuRe (Ours)
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="bal-handle" style="left:96.4968152866242%;">
+                                            <span class=" handle-left-arrow"></span>
+                                            <span class="handle-right-arrow"></span>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="column is-half">
+                                    <div id="example6" class="bal-container-small">
+                                        <div class="bal-after">
+                                            <img src="./static/images/tnt_caterpillar.00004.srgs_manualBubbles.webp"
+                                                alt="SRGS" loading="lazy">
+                                            <div class="bal-afterPosition afterLabel" style="z-index:1;">
+                                                SRGS [Feng 2024]
+                                            </div>
+                                        </div>
+                                        <div class="bal-before" style="width:96.4968152866242%;">
+                                            <div class="bal-before-inset" style="width: 539px;">
+                                                <img src="./static/images/tnt_caterpillar.00004.ours_manualBubbles.webp"
+                                                    alt="Ours" loading="lazy">
+                                                <div class="bal-beforePosition beforeLabel">
+                                                    SplatSuRe (Ours)
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="bal-handle" style="left:96.4968152866242%;">
+                                            <span class=" handle-left-arrow"></span>
+                                            <span class="handle-right-arrow"></span>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="column is-half">
+                                    <div id="example7" class="bal-container-small">
+                                        <div class="bal-after">
+                                            <img src="./static/images/tnt_ballroom.00028.srgs_manualBubbles.webp"
+                                                alt="SRGS" loading="lazy">
+                                            <div class="bal-afterPosition afterLabel" style="z-index:1;">
+                                                SRGS [Feng 2024]
+                                            </div>
+                                        </div>
+                                        <div class="bal-before" style="width:96.4968152866242%;">
+                                            <div class="bal-before-inset" style="width: 539px;">
+                                                <img src="./static/images/tnt_ballroom.00028.ours_manualBubbles.webp"
+                                                    alt="Ours" loading="lazy">
+                                                <div class="bal-beforePosition beforeLabel">
+                                                    SplatSuRe (Ours)
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="bal-handle" style="left:96.4968152866242%;">
+                                            <span class=" handle-left-arrow"></span>
+                                            <span class="handle-right-arrow"></span>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="column is-half">
+                                    <div id="example8" class="bal-container-small">
+                                        <div class="bal-after">
+                                            <img src="./static/images/tnt_playground.00010.srgs_manualBubbles.webp"
+                                                alt="SRGS" loading="lazy">
+                                            <div class="bal-afterPosition afterLabel" style="z-index:1;">
+                                                SRGS [Feng 2024]
+                                            </div>
+                                        </div>
+                                        <div class="bal-before" style="width:96.4968152866242%;">
+                                            <div class="bal-before-inset" style="width: 539px;">
+                                                <img src="./static/images/tnt_playground.00010.ours_manualBubbles.webp"
+                                                    alt="Ours" loading="lazy">
+                                                <div class="bal-beforePosition beforeLabel">
+                                                    SplatSuRe (Ours)
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="bal-handle" style="left:96.4968152866242%;">
+                                            <span class=" handle-left-arrow"></span>
+                                            <span class="handle-right-arrow"></span>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- === Page 3 === -->
+                        <div class="item">
+                            <div class="columns is-multiline is-centered">
+                                <div class="column is-half">
+                                    <div id="example9" class="bal-container-small">
+                                        <div class="bal-after">
+                                            <img src="./static/images/tnt_barn.00051.srgs_manualBubbles.webp" alt="SRGS"
+                                                loading="lazy">
+                                            <div class="bal-afterPosition afterLabel" style="z-index:1;">
+                                                SRGS [Feng 2024]
+                                            </div>
+                                        </div>
+                                        <div class="bal-before" style="width:96.4968152866242%;">
+                                            <div class="bal-before-inset" style="width: 539px;">
+                                                <img src="./static/images/tnt_barn.00051.ours_manualBubbles.webp"
+                                                    alt="Ours" loading="lazy">
+                                                <div class="bal-beforePosition beforeLabel">
+                                                    SplatSuRe (Ours)
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="bal-handle" style="left:96.4968152866242%;">
+                                            <span class=" handle-left-arrow"></span>
+                                            <span class="handle-right-arrow"></span>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="column is-half">
+                                    <div id="example10" class="bal-container-small">
+                                        <div class="bal-after">
+                                            <img src="./static/images/tnt_lighthouse.00015.srgs_manualBubbles.webp"
+                                                alt="SRGS" loading="lazy">
+                                            <div class="bal-afterPosition afterLabel" style="z-index:1;">
+                                                SRGS [Feng 2024]
+                                            </div>
+                                        </div>
+                                        <div class="bal-before" style="width:96.4968152866242%;">
+                                            <div class="bal-before-inset" style="width: 539px;">
+                                                <img src="./static/images/tnt_lighthouse.00015.ours_manualBubbles.webp"
+                                                    alt="Ours" loading="lazy">
+                                                <div class="bal-beforePosition beforeLabel">
+                                                    SplatSuRe (Ours)
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="bal-handle" style="left:96.4968152866242%;">
+                                            <span class=" handle-left-arrow"></span>
+                                            <span class="handle-right-arrow"></span>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="column is-half">
+                                    <div id="example11" class="bal-container-small">
+                                        <div class="bal-after">
+                                            <img src="./static/images/tnt_horse.00008.srgs_manualBubbles.webp"
+                                                alt="SRGS" loading="lazy">
+                                            <div class="bal-afterPosition afterLabel" style="z-index:1;">
+                                                SRGS [Feng 2024]
+                                            </div>
+                                        </div>
+                                        <div class="bal-before" style="width:96.4968152866242%;">
+                                            <div class="bal-before-inset" style="width: 539px;">
+                                                <img src="./static/images/tnt_horse.00008.ours_manualBubbles.webp"
+                                                    alt="Ours" loading="lazy">
+                                                <div class="bal-beforePosition beforeLabel">
+                                                    SplatSuRe (Ours)
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="bal-handle" style="left:96.4968152866242%;">
+                                            <span class=" handle-left-arrow"></span>
+                                            <span class="handle-right-arrow"></span>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="column is-half">
+                                    <div id="example12" class="bal-container-small">
+                                        <div class="bal-after">
+                                            <img src="./static/images/tnt_panther.00009.srgs_manualBubbles.webp"
+                                                alt="SRGS" loading="lazy">
+                                            <div class="bal-afterPosition afterLabel" style="z-index:1;">
+                                                SRGS [Feng 2024]
+                                            </div>
+                                        </div>
+                                        <div class="bal-before" style="width:96.4968152866242%;">
+                                            <div class="bal-before-inset" style="width: 539px;">
+                                                <img src="./static/images/tnt_panther.00009.ours_manualBubbles.webp"
+                                                    alt="Ours" loading="lazy">
+                                                <div class="bal-beforePosition beforeLabel">
+                                                    SplatSuRe (Ours)
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="bal-handle" style="left:96.4968152866242%;">
+                                            <span class=" handle-left-arrow"></span>
+                                            <span class="handle-right-arrow"></span>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
             </div>
         </div>
-    </section> -->
+    </section>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            // Initialize Bulma carousel
+            bulmaCarousel.attach('#comparison-carousel', {
+                slidesToScroll: 1,
+                slidesToShow: 1,
+                loop: true,
+                autoplay: false,
+                pagination: true
+            });
+
+            // Initialize all BeforeAfter sliders
+            ['#example1', '#example2', '#example3', '#example4',
+                '#example5', '#example6', '#example7', '#example8',
+                '#example9', '#example10', '#example11', '#example12']
+                .forEach(id => {
+                    if (document.querySelector(id)) new BeforeAfter({ id });
+                });
+        });
+    </script>
 
     <section class="section" id="BibTeX">
         <div class="container is-max-desktop content">
@@ -315,14 +655,14 @@
 
     <footer class="footer">
         <div class="container">
-            <!-- <div class="content has-text-centered">
+            <div class="content has-text-centered">
                 <a class="icon-link" href="" class="external-link">
                     <i class="fas fa-file-pdf"></i>
                 </a>
                 <a class="icon-link" href="" class="external-link" disabled>
                     <i class="fab fa-github"></i>
                 </a>
-            </div> -->
+            </div>
             <div class="columns is-centered">
                 <div class="column is-8">
                     <div class="content">

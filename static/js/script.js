@@ -1,54 +1,80 @@
 class BeforeAfter {
-    constructor(enteryObject) {
+    constructor(entryObject) {
+        const component = document.querySelector(entryObject.id);
+        const beforeWrapper = component.querySelector('.bal-before');
+        const beforeInset = component.querySelector('.bal-before-inset');
+        const handle = component.querySelector('.bal-handle');
 
-        const beforeAfterContainer = document.querySelector(enteryObject.id);
-        const before = beforeAfterContainer.querySelector('.bal-before');
-        const beforeText = beforeAfterContainer.querySelector('.bal-beforePosition');
-        const afterText = beforeAfterContainer.querySelector('.bal-afterPosition');
-        const handle = beforeAfterContainer.querySelector('.bal-handle');
-        var widthChange = 0;
-
-        beforeAfterContainer.querySelector('.bal-before-inset').setAttribute("style", "width: " + beforeAfterContainer.offsetWidth + "px;")
-        window.onresize = function () {
-            beforeAfterContainer.querySelector('.bal-before-inset').setAttribute("style", "width: " + beforeAfterContainer.offsetWidth + "px;")
-        }
-        before.setAttribute('style', "width: 50%;");
-        handle.setAttribute('style', "left: 50%;");
-
-        //touch screen event listener
-        beforeAfterContainer.addEventListener("touchstart", (e) => {
-
-            beforeAfterContainer.addEventListener("touchmove", (e2) => {
-                let containerWidth = beforeAfterContainer.offsetWidth;
-                let currentPoint = e2.changedTouches[0].clientX;
-
-                let startOfDiv = beforeAfterContainer.offsetLeft;
-
-                let modifiedCurrentPoint = currentPoint - startOfDiv;
-
-                if (modifiedCurrentPoint > 10 && modifiedCurrentPoint < beforeAfterContainer.offsetWidth - 10) {
-                    let newWidth = modifiedCurrentPoint * 100 / containerWidth;
-
-                    before.setAttribute('style', "width:" + newWidth + "%;");
-                    afterText.setAttribute('style', "z-index: 1;");
-                    handle.setAttribute('style', "left:" + newWidth + "%;");
+        // Use ResizeObserver to automatically sync the inset width
+        const resizeObserver = new ResizeObserver(entries => {
+            for (let entry of entries) {
+                const width = entry.contentRect.width;
+                if (beforeInset) {
+                    beforeInset.style.width = width + 'px';
                 }
-            });
+            }
+        });
+        resizeObserver.observe(component);
+
+        // State
+        this.currentPos = 0.5; // 0.0 to 1.0
+
+        // Initial setup
+        beforeWrapper.style.width = "50%";
+        handle.style.left = "50%";
+
+        const updateSlider = (x) => {
+            const rect = component.getBoundingClientRect();
+            const width = rect.width;
+            // Calculate percentage (0 to 100)
+            let percentage = ((x - rect.left) / width) * 100;
+
+            // Clamp value
+            percentage = Math.max(0, Math.min(100, percentage));
+
+            // Update State
+            this.currentPos = percentage / 100;
+
+            // Update DOM
+            beforeWrapper.style.width = percentage + "%";
+            handle.style.left = percentage + "%";
+        };
+
+        let isDragging = false;
+
+        // Touch events
+        component.addEventListener('touchstart', (e) => {
+            const rect = component.getBoundingClientRect();
+            const touchX = e.touches[0].clientX;
+            const currentPixelPos = rect.left + (rect.width * this.currentPos);
+
+            // Interaction zone: +/- 40px from the handle line
+            if (Math.abs(touchX - currentPixelPos) < 40) {
+                isDragging = true;
+                // We don't preventDefault here so 'click' can still fire if needed
+            } else {
+                isDragging = false;
+            }
+        }, { passive: true });
+
+        component.addEventListener('touchmove', (e) => {
+            if (!isDragging) return;
+
+            // Prevent default to stop scrolling/carousel swipe while dragging slider
+            if (e.cancelable) e.preventDefault();
+
+            let touch = e.touches[0] || e.changedTouches[0];
+            updateSlider(touch.clientX);
+        }, { passive: false });
+
+        component.addEventListener('touchend', () => {
+            isDragging = false;
         });
 
-        //mouse move event listener
-        beforeAfterContainer.addEventListener('mousemove', (e) => {
-            let containerWidth = beforeAfterContainer.offsetWidth;
-            widthChange = e.offsetX;
-            let newWidth = widthChange * 100 / containerWidth;
-
-            if (e.offsetX > 10 && e.offsetX < beforeAfterContainer.offsetWidth - 10) {
-                before.setAttribute('style', "width:" + newWidth + "%;");
-                afterText.setAttribute('style', "z-index:" + "1;");
-                handle.setAttribute('style', "left:" + newWidth + "%;");
-            }
-        })
-
+        // Mouse events (Desktop)
+        component.addEventListener('mousemove', (e) => {
+            updateSlider(e.clientX);
+        });
     }
 }
 

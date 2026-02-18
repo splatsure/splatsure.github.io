@@ -9,6 +9,72 @@
         content="3D Gaussian Splatting, 3DGS, novel view synthesis, super-resolution, selective super-resolution, multi-view consistency, high-frequency detail, low-resolution views, undersampled regions, camera pose geometry, dynamic reconstruction, high-fidelity rendering, perceptual quality, multi-view SR, Tanks and Temples, Deep Blending, Mip-NeRF 360, scene geometry–aware SR, Gaussian Splatting super-resolution, high-resolution rendering, multi-view reconstruction">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>SplatSuRe: Selective Super-Resolution for Multi-view Consistent 3D Gaussian Splatting</title>
+
+    <!-- Canonical Link -->
+    <link rel="canonical" href="https://splatsure.github.io/">
+
+    <!-- Open Graph Tags -->
+    <meta property="og:title"
+        content="SplatSuRe: Selective Super-Resolution for Multi-view Consistent 3D Gaussian Splatting">
+    <meta property="og:description"
+        content="SplatSuRe introduces selective super-resolution for 3D Gaussian Splatting by using camera–scene geometry to detect undersampled regions and inject high-frequency detail only where needed.">
+    <meta property="og:url" content="https://splatsure.github.io/">
+    <meta property="og:image" content="https://splatsure.github.io/static/images/teaser.webp">
+    <meta property="og:type" content="website">
+    <meta property="og:site_name" content="SplatSuRe">
+
+    <!-- Twitter Card Tags -->
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title"
+        content="SplatSuRe: Selective Super-Resolution for Multi-view Consistent 3D Gaussian Splatting">
+    <meta name="twitter:description"
+        content="SplatSuRe introduces selective super-resolution for 3D Gaussian Splatting by using camera–scene geometry to detect undersampled regions and inject high-frequency detail only where needed.">
+    <meta name="twitter:image" content="https://splatsure.github.io/static/images/teaser.webp">
+
+    <!-- Structured Data (JSON-LD) -->
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "ScholarlyArticle",
+      "headline": "SplatSuRe: Selective Super-Resolution for Multi-view Consistent 3D Gaussian Splatting",
+      "author": [
+        {
+          "@type": "Person",
+          "name": "Pranav Asthana",
+          "url": "https://pranav-asthana.github.io/"
+        },
+        {
+          "@type": "Person",
+          "name": "Alex Hanson",
+          "url": "https://www.cs.umd.edu/~hanson/"
+        },
+        {
+          "@type": "Person",
+          "name": "Allen Tu",
+          "url": "https://tuallen.github.io"
+        },
+        {
+            "@type": "Person",
+            "name": "Tom Goldstein",
+            "url": "https://www.cs.umd.edu/~tomg/"
+        },
+        {
+            "@type": "Person",
+            "name": "Matthias Zwicker",
+            "url": "https://www.cs.umd.edu/~zwicker/"
+        },
+        {
+            "@type": "Person",
+            "name": "Amitabh Varshney",
+            "url": "https://www.cs.umd.edu/~varshney/"
+        }
+      ],
+      "description": "SplatSuRe introduces selective super-resolution for 3D Gaussian Splatting by using camera–scene geometry to detect undersampled regions and inject high-frequency detail only where needed.",
+      "image": "https://splatsure.github.io/static/images/teaser.webp",
+      "datePublished": "2025-12-04",
+      "url": "https://splatsure.github.io/"
+    }
+    </script>
     <!-- Google tag (gtag.js) -->
     <script async src="https://www.googletagmanager.com/gtag/js?id=G-P1QY74DWKY"></script>
     <script>
@@ -19,7 +85,16 @@
         gtag('config', 'G-P1QY74DWKY'); 
     </script>
 
+
     <link href="https://fonts.googleapis.com/css?family=Google+Sans|Noto+Sans|Castoro" rel="stylesheet">
+
+    <!-- Resource Hints -->
+    <link rel="preconnect" href="https://fonts.googleapis.com/css">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link rel="preconnect" href="https://cdnjs.cloudflare.com">
+    <link rel="preconnect" href="https://cdn.jsdelivr.net">
+    <link rel="preconnect" href="https://ajax.googleapis.com">
+
 
     <link rel="stylesheet" href="./static/css/bulma.min.css">
     <link rel="stylesheet" href="./static/css/bulma-carousel.min.css">
@@ -72,34 +147,34 @@
                             <span class="author-block">University of Maryland, College Park</span>
                         </div>
 
-                        <div class="column has-text-centered">
-                            <div class="publication-links">
-                                <span class="link-block">
-                                    <a href="https://arxiv.org/pdf/2512.02172" class="external-link button is-normal is-rounded is-dark">
-                                        <span class="icon">
-                                            <i class="fas fa-file-pdf"></i>
-                                        </span>
-                                        <span>Paper</span>
-                                    </a>
-                                </span>
-                                <span class="link-block">
-                                    <a href="https://arxiv.org/abs/2512.02172" class="external-link button is-normal is-rounded is-dark">
-                                        <span class="icon">
-                                            <i class="ai ai-arxiv"></i>
-                                        </span>
-                                        <span>arXiv</span>
-                                    </a>
-                                </span>
-                                <span class="link-block">
-                                    <a href="https://github.com/pranav-asthana/SplatSuRe"
-                                        class="external-link button is-normal is-rounded is-dark">
-                                        <span class="icon">
-                                            <i class="fab fa-github"></i>
-                                        </span>
-                                        <span>Code</span>
-                                    </a>
-                                </span>
-                            </div>
+                        <div class="publication-links">
+                            <span class="link-block">
+                                <a href="https://arxiv.org/pdf/2512.02172" target="_blank" rel="noopener noreferrer"
+                                    class="external-link button is-normal is-rounded is-dark">
+                                    <span class="icon">
+                                        <i class="fas fa-file-pdf"></i>
+                                    </span>
+                                    <span>Paper</span>
+                                </a>
+                            </span>
+                            <span class="link-block">
+                                <a href="https://arxiv.org/abs/2512.02172" target="_blank" rel="noopener noreferrer"
+                                    class="external-link button is-normal is-rounded is-dark">
+                                    <span class="icon">
+                                        <i class="ai ai-arxiv"></i>
+                                    </span>
+                                    <span>arXiv</span>
+                                </a>
+                            </span>
+                            <span class="link-block">
+                                <a href="https://github.com/pranav-asthana/SplatSuRe" target="_blank"
+                                    rel="noopener noreferrer" class="external-link button is-normal is-rounded is-dark">
+                                    <span class="icon">
+                                        <i class="fab fa-github"></i>
+                                    </span>
+                                    <span>Code</span>
+                                </a>
+                            </span>
                         </div>
                     </div>
                 </div>
@@ -109,10 +184,12 @@
 
     <section class="hero">
         <div class="hero-teaser">
-            <div class="video-compare-container">
-                <video class="video" width=60% id="v2" loop playsinline autoplay muted src="static/videos/church.mp4"
-                    onplay="resizeAndPlay(this)"></video>
-                <canvas height=0 class="videoMerge" id="v2Merge"></canvas>
+            <div class="container is-centered">
+                <div class="video-compare-container">
+                    <video class="video" id="v1" loop playsinline autoplay muted
+                        src="static/videos/church_compressed.mp4" onplay="resizeAndPlay(this)"></video>
+                    <canvas class="videoMerge" id="v1Merge"></canvas>
+                </div>
             </div>
         </div>
     </section>
@@ -217,11 +294,22 @@
                         </p>
 
                         <p style="text-align:center;">
-                            \[
-                            r^i_{min} = \min_{t\in T}{r^i_t}, \qquad
-                            r^i_{max} = \max_{t\in T}{r^i_t}, \qquad
-                            \rho^i = r^i_{max}/r^i_{min}.
-                            \]
+                            <span class="math-desktop">
+                                \[
+                                r^i_{min} = \min_{t\in T}{r^i_t}, \qquad
+                                r^i_{max} = \max_{t\in T}{r^i_t}, \qquad
+                                \rho^i = r^i_{max}/r^i_{min}.
+                                \]
+                            </span>
+                            <span class="math-mobile">
+                                \[
+                                \begin{gathered}
+                                r^i_{min} = \min_{t\in T}{r^i_t}, \qquad
+                                r^i_{max} = \max_{t\in T}{r^i_t}, \\
+                                \rho^i = r^i_{max}/r^i_{min}.
+                                \end{gathered}
+                                \]
+                            </span>
                         </p>
 
                         <p>
@@ -268,10 +356,20 @@
                         </p>
 
                         <p style="text-align:center;">
-                            \[
-                            W'_t = \bigl(1 - \mathrm{Render}(\mathrm{score}_{\mathcal{G}})\bigr) +
-                            \mathrm{Render}(\mathbf{1}_{\mathcal{M}(t)}(\mathcal{G})).
-                            \]
+                            <span class="math-desktop">
+                                \[
+                                W'_t = \bigl(1 - \mathrm{Render}(\mathrm{score}_{\mathcal{G}})\bigr) +
+                                \mathrm{Render}(\mathbf{1}_{\mathcal{M}(t)}(\mathcal{G})).
+                                \]
+                            </span>
+                            <span class="math-mobile">
+                                \[
+                                \begin{aligned}
+                                W'_t &= \bigl(1 - \mathrm{Render}(\mathrm{score}_{\mathcal{G}})\bigr) \\
+                                &+ \mathrm{Render}(\mathbf{1}_{\mathcal{M}(t)}(\mathcal{G})).
+                                \end{aligned}
+                                \]
+                            </span>
                         </p>
 
                         <p>
@@ -615,8 +713,10 @@
                         </div>
 
                     </div>
-                    <p class="subtitle is-6" style="margin-top: -1em; color: #555; line-height: 1.6; font-size: 0.9rem;">
-                        Training images from Tanks & Temples and Mip-NeRF 360 are downsampled by 8× and then super-resolved by 4×.<br>
+                    <p class="subtitle is-6"
+                        style="margin-top: -1em; color: #555; line-height: 1.6; font-size: 0.9rem;">
+                        Training images from Tanks & Temples and Mip-NeRF 360 are downsampled by 8× and then
+                        super-resolved by 4×.<br>
                         * Training images from Deep Blending are downsampled by 4× and then super-resolved by 4×.
                     </p>
                 </div>
@@ -661,10 +761,14 @@
     <footer class="footer">
         <div class="container">
             <div class="content has-text-centered">
-                <a class="icon-link" href="https://arxiv.org/pdf/2512.02172" class="external-link">
+                <a class="icon-link" href="https://arxiv.org/pdf/2512.02172" target="_blank" rel="noopener noreferrer">
                     <i class="fas fa-file-pdf"></i>
                 </a>
-                <a class="icon-link" href="https://github.com/pranav-asthana/SplatSuRe" class="external-link" disabled>
+                <a class="icon-link" href="https://arxiv.org/abs/2512.02172" target="_blank" rel="noopener noreferrer">
+                    <i class="ai ai-arxiv"></i>
+                </a>
+                <a class="icon-link" href="https://github.com/pranav-asthana/SplatSuRe" target="_blank"
+                    rel="noopener noreferrer" disabled>
                     <i class="fab fa-github"></i>
                 </a>
             </div>
@@ -687,7 +791,8 @@
                         <p>
                             We thank the authors of <a rel="nerfies"
                                 href="https://github.com/nerfies/nerfies.github.io/tree/main">Nerfies</a>
-                            for generously open-sourcing the templates used in this website.
+                            for generously <a href="https://github.com/splatsure/splatsure.github.io">open-sourcing</a>
+                            the template used in this website.
                         </p>
                     </div>
                 </div>

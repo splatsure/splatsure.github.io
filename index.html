@@ -223,21 +223,20 @@
                         </p>
 
                         <p>
-                            Prior methods attempt to mitigate these inconsistencies through learned neural
-                            components, temporally consistent video priors, or joint optimization on LR and SR views,
-                            but all uniformly apply SR across every image. In contrast, our key insight is that
-                            close-up LR views may contain high-frequency information for regions also captured in more
-                            distant views, and that we can use the camera pose relative to scene geometry to inform
-                            where to add SR content.
+                            Prior methods attempt to mitigate these inconsistencies through learned neural components,
+                            temporally consistent video priors, or joint optimization on LR and SR views, but all
+                            uniformly apply SR across every image. In contrast, our key insight is that close-up LR
+                            views may contain high-frequency information for regions also captured in more distant views
+                            and that we can use the camera pose relative to scene geometry to inform where to add SR
+                            content.
                         </p>
 
                         <p>
-                            Building from this insight, we propose SplatSuRe, a method that selectively applies
-                            SR content only in undersampled regions lacking high-frequency supervision, yielding sharper
-                            and more consistent results. Across Tanks & Temples, Deep Blending and Mip-NeRF 360,
-                            our approach surpasses baselines in both fidelity and perceptual quality. Notably,
-                            our gains are most significant in localized foreground regions where higher detail is
-                            desired.
+                            Building on this insight, we propose SplatSuRe, a method that selectively applies SR content
+                            only in undersampled regions lacking high-frequency supervision, yielding sharper and more
+                            consistent results. Across Tanks \& Temples, Deep Blending, and Mip-NeRF 360, our approach
+                            surpasses baselines in both fidelity and perceptual quality. Notably, our gains are most
+                            significant in localized foreground regions where higher detail is desired.
                         </p>
                     </div>
                 </div>
@@ -329,8 +328,7 @@
                         <p>
                             A high ratio \( \rho^i \) indicates that the Gaussian is sampled at varying frequencies
                             across views, meaning some views observe it with high fidelity and can supervise the others.
-                            A
-                            ratio close to one indicates uniform sampling across views, indicating that this region
+                            A ratio close to one indicates uniform sampling across views, indicating that this region
                             requires SR to add generated details. We convert this ratio into a normalized fidelity
                             score:
                         </p>
@@ -343,9 +341,9 @@
 
                         <p>
                             where \( \tau \) is a threshold and \( k \) controls transition smoothness.
-                            Gaussians in less than three views are assigned a score of zero. Higher scores
-                            correspond to Gaussians that are already well-captured by LR supervision, while lower
-                            scores identify regions where SR should be applied more heavily.
+                            Gaussians in less than three views are assigned a score of zero. Higher scores correspond to
+                            Gaussians that are already well-captured by LR supervision, while lower scores identify
+                            regions where SR should be applied more heavily.
                         </p>
                     </div>
 
@@ -359,7 +357,8 @@
 
                         <p style="text-align:center;">
                             \[
-                            \mathcal{M}(t) = \{\mathcal{G}^i\ |\ t = \arg\max_{t \in T}r^i_t \; \forall i \in N \}.
+                            \mathcal{M}(t) = \{\mathcal{G}^i\ |\ t = \arg\max_{t \in T}r^i_t \; \forall i \in
+                            \{1,\ldots, N\} \}.
                             \]
                         </p>
 

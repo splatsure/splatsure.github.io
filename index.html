@@ -4,7 +4,7 @@
 <head>
     <meta charset="utf-8">
     <meta name="description"
-        content="SplatSuRe introduces selective super-resolution for 3D Gaussian Splatting by using camera–scene geometry to detect undersampled regions and inject high-frequency detail only where needed, eliminating multi-view inconsistencies and yielding sharper, higher-fidelity results across diverse datasets.">
+        content="SplatSuRe enhances 3D Gaussian Splatting from low-resolution training images by injecting super-resolution only in regions lacking high-frequency supervision from other views, yielding sharper, more faithful reconstructions while preserving multi-view consistency.">
     <meta name="keywords"
         content="3D Gaussian Splatting, 3DGS, novel view synthesis, super-resolution, selective super-resolution, multi-view consistency, high-frequency detail, low-resolution views, undersampled regions, camera pose geometry, dynamic reconstruction, high-fidelity rendering, perceptual quality, multi-view SR, Tanks and Temples, Deep Blending, Mip-NeRF 360, scene geometry–aware SR, Gaussian Splatting super-resolution, high-resolution rendering, multi-view reconstruction">
     <meta name="viewport" content="width=device-width, initial-scale=1">
@@ -17,7 +17,7 @@
     <meta property="og:title"
         content="SplatSuRe: Selective Super-Resolution for Multi-view Consistent 3D Gaussian Splatting">
     <meta property="og:description"
-        content="SplatSuRe introduces selective super-resolution for 3D Gaussian Splatting by using camera–scene geometry to detect undersampled regions and inject high-frequency detail only where needed.">
+        content="SplatSuRe enhances 3D Gaussian Splatting from low-resolution training images by injecting super-resolution only in regions lacking high-frequency supervision from other views, yielding sharper, more faithful reconstructions while preserving multi-view consistency.">
     <meta property="og:url" content="https://splatsure.github.io/">
     <meta property="og:image" content="https://splatsure.github.io/static/images/teaser.webp?v=2026.03.08.1">
     <meta property="og:type" content="website">
@@ -28,7 +28,7 @@
     <meta name="twitter:title"
         content="SplatSuRe: Selective Super-Resolution for Multi-view Consistent 3D Gaussian Splatting">
     <meta name="twitter:description"
-        content="SplatSuRe introduces selective super-resolution for 3D Gaussian Splatting by using camera–scene geometry to detect undersampled regions and inject high-frequency detail only where needed.">
+        content="SplatSuRe enhances 3D Gaussian Splatting from low-resolution training images by injecting super-resolution only in regions lacking high-frequency supervision from other views, yielding sharper, more faithful reconstructions while preserving multi-view consistency.">
     <meta name="twitter:image" content="https://splatsure.github.io/static/images/teaser.webp?v=2026.03.08.1">
 
     <!-- Structured Data (JSON-LD) -->
@@ -69,7 +69,7 @@
             "url": "https://www.cs.umd.edu/~varshney/"
         }
       ],
-      "description": "SplatSuRe introduces selective super-resolution for 3D Gaussian Splatting by using camera–scene geometry to detect undersampled regions and inject high-frequency detail only where needed.",
+      "description": "SplatSuRe enhances 3D Gaussian Splatting from low-resolution training images by injecting super-resolution only in regions lacking high-frequency supervision from other views, yielding sharper, more faithful reconstructions while preserving multi-view consistency.",
       "image": "https://splatsure.github.io/static/images/teaser.webp?v=2026.03.08.1",
       "datePublished": "2025-12-01",
       "url": "https://splatsure.github.io/"
@@ -809,9 +809,8 @@
                     </div>
                     <div class="content has-text-centered">
                         <p>
-                            We thank the authors of <a rel="nerfies"
-                                href="https://github.com/nerfies/nerfies.github.io/tree/main" target="_blank"
-                                rel="noopener noreferrer">Nerfies</a>
+                            We thank the authors of <a href="https://github.com/nerfies/nerfies.github.io/tree/main"
+                                target="_blank" rel="noopener noreferrer">Nerfies</a>
                             for generously <a href="https://github.com/splatsure/splatsure.github.io" target="_blank"
                                 rel="noopener noreferrer">open-sourcing</a>
                             the template used in this website.

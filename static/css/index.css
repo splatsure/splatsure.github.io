@@ -59,7 +59,7 @@ body {
   line-height: 0;
   border-radius: 10px;
   overflow: hidden;
-  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.14);
+  box-shadow: 0 4px 16px var(--shadow);
 }
 
 .video-compare-container canvas {
@@ -102,12 +102,15 @@ body {
 
 .footer .icon-link {
   font-size: 25px;
-  color: #000;
+  color: var(--text-heading);
 }
 
-.footer .icon-link:hover {
-  color: #363636;
-}
+/* This page used to lighten the glyph to #363636 on hover, alone among the five —
+   the others leave it at ink and let interactions.css carry the feedback with a lift
+   and a glow. It cannot survive dark mode: #363636 on the #161b22 footer measures
+   1.42:1, so hovering would make the icon vanish rather than respond. Dropped rather
+   than tokenised, which also matches the sibling pages and the rule applied elsewhere
+   in this file that hover feedback must not be *less* visible than rest. */
 
 .link-block a {
   margin: 5px 0;
@@ -121,13 +124,13 @@ body {
 }
 
 .publication-title {
-  color: #000;
+  color: var(--text-heading);
   font-family: 'Google Sans', 'Google Sans Fallback', 'Noto Sans', sans-serif;
   margin-top: -20px;
 }
 
 .publication-authors {
-  color: #000;
+  color: var(--text-heading);
   font-family: 'Google Sans', 'Google Sans Fallback', 'Noto Sans', sans-serif;
 }
 
@@ -136,7 +139,7 @@ body {
 }
 
 .publication-venue {
-  color: #000;
+  color: var(--text-heading);
   font-weight: bold;
 }
 
@@ -156,7 +159,7 @@ body {
   padding-bottom: 56.25%;
   overflow: hidden;
   border-radius: 10px !important;
-  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.14);
+  box-shadow: 0 4px 16px var(--shadow);
 }
 
 .publication-video iframe {
@@ -223,7 +226,7 @@ body {
 
 figcaption {
   font-size: 0.9rem;
-  color: #555;
+  color: var(--text-muted);
   text-align: center;
   margin-top: 8px;
 }
@@ -239,7 +242,7 @@ figcaption {
 .table-note {
   margin-top: 1rem;
   margin-bottom: 1.5rem;
-  color: #555;
+  color: var(--text-muted);
   line-height: 1.6;
   font-size: 0.9rem;
   text-align: center;
@@ -249,7 +252,15 @@ figcaption {
 .bal-container-small {
   position: relative;
   width: 100%;
-  /* Height comes from the image, so a slider adapts to whatever it is given. */
+  /* Height comes from an inline `aspect-ratio` stamped per slider from its own image's
+     dimensions. It used to come from the image itself, which meant the box collapsed to
+     nothing until that image decoded — and because off-screen carousel slides never
+     enter the viewport, their lazy images did not even start loading until the slide was
+     stepped to. The first trip round the ring therefore snapped from a zero-height box
+     to a full one, which is the flash; the second trip was smooth because the images
+     were cached. slideshow.js now also promotes those images as soon as the carousel is
+     on screen, so the two fixes are complementary: this reserves the space, that starts
+     the fetch early. */
   cursor: grab;
   overflow: hidden;
   border-radius: 10px;
@@ -257,7 +268,7 @@ figcaption {
   box-sizing: border-box;
   line-height: 0;
   /* Prevents small vertical gaps */
-  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.14);
+  box-shadow: 0 4px 16px var(--shadow);
 }
 
 /* The selected slide lifts onto a deeper shadow, matching the video carousels on
@@ -265,7 +276,7 @@ figcaption {
    it, this page's carousel had a flat shadow on every slide where the others cue
    the active one. */
 .slideshow-slide.is-active .bal-container-small {
-  box-shadow: 0 8px 28px rgba(0, 0, 0, 0.2);
+  box-shadow: 0 8px 28px var(--shadow-raised);
 }
 
 .bal-after {
@@ -418,12 +429,75 @@ figcaption {
   margin-right: -14px;
 }
 
+/* ---- Related work ----
+   The single entry was an unwrapped text node sitting directly under the heading —
+   no <p>, no list — with the paper name and its venue run together in one sentence.
+   The sibling pages already use a `.related-list` whose entries put the title on its
+   own line above the description, with the venue as a quiet badge; this page now
+   matches, which also gives the five `.related-*` selectors in interactions.css
+   something to match. No BibTeX link here: there is one entry and it is not ours. */
+
+.related-list {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+
+.related-item + .related-item {
+  margin-top: 1.5rem;
+}
+
+.related-title {
+  margin-bottom: 0.2rem !important;
+}
+/* The venue sits on its own line under the title, so a long paper name never has to
+   share a baseline with it. */
+.related-meta {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 0.5rem;
+  margin-bottom: 0.35rem !important;
+}
+
+.related-title > a:first-child {
+  font-weight: 700;
+  font-size: 1.05rem;
+  color: var(--link);
+}
+
+/* Metadata, not a heading: sized and coloured to sit behind the title. theme.css
+   re-points both of these at tokens so the badge follows the theme; the values here
+   are what it resolves to in light. */
+.related-venue {
+  font-size: 0.78rem;
+  font-weight: 600;
+  letter-spacing: 0.02em;
+  text-transform: uppercase;
+  color: var(--text-quiet);
+  background-color: var(--bg-chip);
+  border-radius: 999px;
+  padding: 0.15em 0.6em;
+  /* `nowrap` keeps a short venue like "CVPR 2025" from breaking mid-name, which is
+     what the sibling sites need. This one reads "CVPR 2026 Workshops" — long enough
+     that at 320px with 200% text the unbreakable chip was 329px in a 320px viewport,
+     and Bulma's `html { overflow-x: hidden }` made that 41px unreachable rather than
+     merely off-screen. Allowed to wrap once it cannot fit. */
+  white-space: nowrap;
+}
+
+@media screen and (max-width: 400px) {
+  .related-venue {
+    white-space: normal;
+  }
+}
+
 /* ---- BibTeX block ----
    Was a long inline style attribute on both the container and its button. */
 
 .bibtex-container {
   position: relative;
-  background: #f5f5f5;
+  background-color: var(--bg-code);
   border-radius: 8px;
   padding: 0.5rem;
 }
@@ -436,15 +510,15 @@ figcaption {
   align-items: center;
   justify-content: center;
   padding: 0.5rem;
-  background: #fff;
+  background-color: var(--bg);
   /* Was #e5e5e5, 1.26:1 against the button's own white fill — a control boundary
      WCAG 1.4.11 asks to reach 3:1. The measurement that matters is against the
      #f5f5f5 code block the button sits on, not its own fill: #8f8f8f gave 3.23:1
      inward but only 2.97:1 outward, so #858585 is used instead — 3.45:1 and 3.17:1,
      clearing 3:1 on both edges while still reading as quiet chrome. */
-  border: 1px solid #858585;
+  border: 1px solid var(--border);
   border-radius: 4px;
-  color: #595959;
+  color: var(--text-quiet);
   font-size: 1rem;
   line-height: 1;
   cursor: pointer;
@@ -455,13 +529,13 @@ figcaption {
 /* Hover used to lighten the border to #b5b5b5 — 2.05:1, less visible than at rest,
    so the feedback made the control harder to see. Darker instead. */
 .copy-code-btn:hover {
-  border-color: #6b6b6b;
-  color: #363636;
+  border-color: var(--border-hover);
+  color: var(--text-hover);
 }
 
 .copy-code-btn.copied {
-  color: #257953;
-  border-color: #257953;
+  color: var(--copied);
+  border-color: var(--copied);
 }
 
 /* ---- Equations ----
@@ -525,32 +599,83 @@ figcaption {
 
 /* ---- Display equations on narrow screens ----
  *
- * MathJax lays a display equation out at its intrinsic width and nothing clips it,
- * so a formula wider than the viewport pushes the whole page sideways — below
- * ~385px this page could be scrolled horizontally by ~65px. The `math-mobile`
- * variants already restack the longest formulas, but some remain wider than a
- * small phone whatever we do with line breaks.
+ * MathJax lays a display equation out at its intrinsic width and nothing clips it, so
+ * a formula wider than the viewport used to push the whole page sideways.
  *
- * Letting the container scroll on its own axis keeps the equation legible and
- * complete while the page itself stays fixed. Applied to the container rather than
- * the <p>, so surrounding prose is unaffected.
+ * This was previously solved with `overflow-x: auto`, which fixed the page but made
+ * every display equation a scroll container. Desktop browsers draw overlay scrollbars
+ * that appear only while scrolling, so it looked clean — but Android Chrome paints a
+ * classic track, putting a bar under all seven equations to accommodate the one that is
+ * actually too wide, and then only by ~25px.
+ *
+ * Shrink to fit instead. `font-size` cannot do it: MathJax writes `font-size: 121.4%`
+ * as an inline style on the container, and an inline style beats any stylesheet rule.
+ * So the scaling goes on `mjx-math`, the inner box, via a transform. `transform` does
+ * not affect layout, so the container is also given a matching height reduction — the
+ * scale is small enough that the leftover is a couple of pixels.
+ *
+ * A reader who wants the fine detail can pinch-zoom, which is how maths is normally
+ * read on a phone and does not require a scroll gesture inside a 40px-tall box.
  */
 mjx-container[display="true"] {
   max-width: 100%;
+  /* Scrollable as a safety net. The scale steps below cover ordinary phone widths, but
+     at 200% text a formula can need ~35% of its natural size — far past the 0.80 floor —
+     and `overflow: hidden` then made the remainder unreachable, which is content loss
+     rather than a nuisance. A scroll container only paints a bar when it actually
+     overflows, so in the common case the scaling means there is nothing to scroll and no
+     bar appears; when scaling is not enough the content stays reachable. */
   overflow-x: auto;
   overflow-y: hidden;
-  /* Room for the scrollbar so it never sits on top of a glyph. */
-  padding-bottom: 2px;
 }
 
-/* Inline math normally must not become a scroll container — that would break the
-   line box. But a long inline expression can still be wider than a small phone,
-   and nothing clips it, so it drags the page sideways. Allowing it to scroll only
-   at the narrowest widths keeps the formula complete and the page fixed. */
+/* Discrete steps rather than a fluid clamp: `scale()` takes a bare <number>, and
+   `clamp(0.8, 0.35 + 0.14vw, 1)` mixes a unitless value with a length, which is an
+   invalid calc() type — the whole declaration is dropped and nothing scales. Three
+   breakpoints cover the range; the widest formula across these pages needs ~80% to
+   clear a 320px screen. */
+@media screen and (max-width: 480px) {
+  mjx-container[display="true"] > mjx-math {
+    transform: scale(0.92);
+    /* `left top`, not `center top`. A transform does not change layout, so the box keeps
+       its unscaled width and `center` leaves the shrunken content centred on the
+       ORIGINAL centre — hanging off both sides equally, with the right-hand overflow
+       clipped and unreachable under the `overflow: hidden` above. Measured 36.9px of an
+       equation cut off at 320px. Anchoring at the left pulls the content into the box
+       instead; MathJax already centres the equation within `mjx-container`, so the
+       result still reads as centred. */
+    transform-origin: left top;
+  }
+}
+
+@media screen and (max-width: 400px) {
+  mjx-container[display="true"] > mjx-math {
+    transform: scale(0.86);
+  }
+}
+
+@media screen and (max-width: 340px) {
+  mjx-container[display="true"] > mjx-math {
+    transform: scale(0.8);
+  }
+}
+
+/* Inline math must not become a scroll container — that would break the line box — and
+   must not scale independently of the sentence around it. Capping its width is enough:
+   long inline expressions are rare, and the page no longer overflows now that the
+   display equations fit. */
 mjx-container:not([display="true"]) {
   max-width: 100%;
 }
 
+/* Inline maths must not become a scroll container at normal widths — that would break
+   the line box. But a long inline expression can still be wider than a small phone, and
+   because it is `display: inline` a `max-width` does nothing to it, so nothing clips it
+   and it drags the whole page sideways. Allowing it to scroll on its own axis only at the
+   narrowest widths keeps the formula complete and the page fixed.
+
+   This matters most where a page has no *display* equations at all — transfira's only wide
+   maths is inline, so the scaling applied to `[display="true"]` never reaches it. */
 @media screen and (max-width: 400px) {
   mjx-container:not([display="true"]) {
     display: inline-block;
@@ -559,3 +684,4 @@ mjx-container:not([display="true"]) {
     vertical-align: middle;
   }
 }
+

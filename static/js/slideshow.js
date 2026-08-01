@@ -21,8 +21,12 @@
     // settle timeout — three copies of one number.
     const SLIDE_MS = 450;
     const SLIDE_EASE = "cubic-bezier(0.4, 0, 0.2, 1)";
-    const SLIDE_TRANSITION =
-        `transform ${SLIDE_MS}ms ${SLIDE_EASE}, opacity ${SLIDE_MS}ms ease, filter ${SLIDE_MS}ms ease`;
+    /* Transform only. `opacity` and `filter` were in here when the neighbours were
+       faded and desaturated; nothing sets either on a slide any more, on desktop or
+       mobile, so listing them animated properties that never change — and on mobile
+       the opacity entry was actively harmful, easing on a different curve from the
+       transform and making one step look like two. */
+    const SLIDE_TRANSITION = `transform ${SLIDE_MS}ms ${SLIDE_EASE}`;
     // A little past the transition so the settle never lands mid-animation.
     const SETTLE_MS = SLIDE_MS + 20;
 
@@ -59,6 +63,16 @@
             : { matches: false };
 
         let position = 0;
+        /* Starts `true` deliberately. An audit flagged that this makes init()'s
+           synchronous syncPlayback() fetch the active slide's video even when the
+           carousel is far below the fold, which is real — but flipping it to `false`
+           and waiting for the IntersectionObserver was measured to leave the carousel
+           permanently unloaded whenever that first callback does not arrive (0 of 5
+           posters set, against 5 with this default). A carousel that never loads is a
+           worse failure than one that loads early, so the eager default stays and the
+           observer's job is to pause what is off screen rather than to permit loading.
+           The pre-scroll cost is bounded by `preload="none"` plus `data-src`: only the
+           active slide is promoted, not the whole set. */
         let onScreen = true;
 
         const dots = count < 2 ? [] : slides.map(function (_, i) {
@@ -75,12 +89,23 @@
             return ((position % count) + count) % count;
         }
 
-        // One seat's pitch: the slide's own (unscaled) width plus the gap. Slides
-        // are laid out in a single grid cell, so offsetWidth is the untransformed
-        // width and is unaffected by the scale the transform applies.
+        /* One seat's pitch: the slide's own (unscaled) width plus the gap. Slides are
+           laid out in a single grid cell, so offsetWidth is the untransformed width and
+           is unaffected by the scale the transform applies.
+
+           Cached, like `cachedScale` below. `paint()` calls this and then writes a
+           transform to every slide, so reading it live interleaved a layout read with a
+           style write — one forced reflow per call, and `paint()` runs on every
+           `mousemove`/`touchmove` during a drag. The pitch only changes when the layout
+           does, which is exactly when `relayout()` fires. */
+        let cachedPitch = null;
+
         function slideWidth() {
-            const gap = parseFloat(getComputedStyle(track).columnGap) || 0;
-            return slides[0].offsetWidth + gap;
+            if (cachedPitch === null) {
+                const gap = parseFloat(getComputedStyle(track).columnGap) || 0;
+                cachedPitch = slides[0].offsetWidth + gap;
+            }
+            return cachedPitch;
         }
 
         /* The neighbour scale comes from CSS so a media query can flatten it to 1 on
@@ -219,6 +244,7 @@
         // eight clips would otherwise run eight decoders for one visible video.
         function syncPlayback() {
             const active = activeIndex();
+            if (onScreen) loadImages();
             slides.forEach(function (slide, i) {
                 const wanted = onScreen && i === active;
                 slide.querySelectorAll("video").forEach(function (v) {
@@ -240,6 +266,29 @@
         // Sources start as data-src so the browser fetches nothing until the clip
         // is wanted. Without this a results carousel pulls every video on load
         // even though only one is on screen.
+        /* Off-screen slides are translated outside the viewport, which is exactly the
+           condition under which the browser defers a `loading="lazy"` image — and it
+           will keep deferring, because the slide never enters the viewport by scrolling.
+           So the first trip round the ring showed slides whose images had not started
+           loading, and the step looked like a flash; the second trip was smooth because
+           they were cached by then.
+
+           Once the carousel itself is on screen, every slide's images are wanted
+           regardless of which one is active, for the same reason the video posters are:
+           the next step must not have to wait for a fetch. Dropping `loading` is enough
+           to start it — the attribute is only a hint, and removing it promotes the image
+           to a normal eager load. Runs once; `imagesPromoted` guards re-entry, since
+           syncPlayback() is called on every step. */
+        let imagesPromoted = false;
+
+        function loadImages() {
+            if (imagesPromoted) return;
+            imagesPromoted = true;
+            container.querySelectorAll('img[loading="lazy"]').forEach(function (img) {
+                img.removeAttribute("loading");
+            });
+        }
+
         /* Show a slide's still frame. Kept separate from loadVideo() because the
            peeking neighbours are visible and must not be blank, while their video
            streams should stay deferred — the poster is tens of KB, the clip is
@@ -363,6 +412,7 @@
 
         function relayout() {
             cachedScale = null;      // a media query may have changed it
+            cachedPitch = null;      // and the slide width with it
             if (relayoutPending) return;
             relayoutPending = true;
             requestAnimationFrame(function () {

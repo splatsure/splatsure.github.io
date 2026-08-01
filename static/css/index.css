@@ -492,6 +492,23 @@ figcaption {
   color: var(--link);
 }
 
+/* The secondary link beside the venue badge. Quiet by default, with the underline
+   appearing on hover so it is discoverable without shouting on every entry. Matches the
+   sibling sites, where this slot holds a BibTeX link; here it points at the challenge
+   paper's CVF Open Access page, which is where its abstract and BibTeX both live. */
+.related-bibtex {
+  font-size: 0.82rem;
+  color: var(--text-quiet);
+  text-decoration: none;
+  border-bottom: 1px solid transparent;
+  transition: color 0.2s ease, border-color 0.2s ease;
+}
+
+.related-bibtex:hover {
+  color: var(--text-hover);
+  border-bottom-color: var(--border);
+}
+
 /* Metadata, not a heading: sized and coloured to sit behind the title. theme.css
    re-points both of these at tokens so the badge follows the theme; the values here
    are what it resolves to in light. */

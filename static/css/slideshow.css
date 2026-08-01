@@ -6,8 +6,9 @@
  * and the track is clipped to the content column: the peeking neighbours are cut
  * off exactly where the surrounding text and teaser end, not at the window edge.
  *
- * Palette follows the pages' existing dark-neutral buttons (#363636), not an
- * accent colour, so it reads as part of the same document.
+ * Colours resolve through the theme tokens in theme.css, so the controls follow the
+ * page rather than being pinned to a light-mode value — the arrows, the active dot and
+ * the focus ring were all #363636, which measures 1.57:1 on the dark background.
  */
 
 .slideshow {
@@ -31,12 +32,13 @@
    needed so the active slide's shadow isn't sheared off. A plain `overflow` pair
    like that does not establish a containing block for the clip on every engine,
    so the hidden neighbours could still be reached by a sideways touch-scroll —
-   the page appeared to have something too wide in it. `overflow-clip-margin` pins
-   the clip to the padding box so nothing bleeds past the column edges. */
+   the page appeared to have something too wide in it. The clip lands on the padding-box
+   edge, which is `overflow-clip-margin`'s initial value, so nothing needs to be said
+   here — an earlier `overflow-clip-margin: 0 24px` was silently dropped anyway, since
+   the property takes a single length and two is a parse error. */
 .slideshow-viewport {
   overflow-x: clip;
   overflow-y: visible;
-  overflow-clip-margin: 0 24px;
   padding: 10px 0;
 }
 
@@ -104,7 +106,7 @@
   width: 100%;
   height: auto;
   border-radius: 10px;
-  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.14);
+  box-shadow: 0 4px 16px var(--shadow);
   -webkit-user-select: none;
   user-select: none;
   -webkit-user-drag: none;
@@ -113,7 +115,7 @@
 .slideshow-slide.is-active > img,
 .slideshow-slide.is-active > picture > img,
 .slideshow-slide.is-active > video {
-  box-shadow: 0 8px 28px rgba(0, 0, 0, 0.2);
+  box-shadow: 0 8px 28px var(--shadow-raised);
 }
 
 /* ---- Controls ---- */
@@ -141,7 +143,7 @@
   border: none;
   border-radius: 50%;
   background: none;
-  color: #363636;
+  color: var(--arrow);
   line-height: 1;
   cursor: pointer;
   transition: color 0.2s ease, background 0.2s ease;
@@ -149,15 +151,15 @@
 
 .slideshow-prev:hover,
 .slideshow-next:hover {
-  background: #f5f5f5;
-  color: #000;
+  background: var(--bg-chip);
+  color: var(--text-heading);
 }
 
 .slideshow-prev:focus-visible,
 .slideshow-next:focus-visible,
 .slideshow-dot:focus-visible,
 .slideshow:focus-visible {
-  outline: 2px solid #363636;
+  outline: 2px solid var(--link);
   outline-offset: 3px;
 }
 
@@ -171,17 +173,17 @@
   padding: 0;
   border: none;
   border-radius: 50%;
-  background: #8f8f8f;
+  background: var(--dot);
   cursor: pointer;
   transition: background 0.2s ease, transform 0.2s ease;
 }
 
 .slideshow-dot:hover {
-  background: #6b6b6b;
+  background: var(--dot-hover);
 }
 
 .slideshow-dot.is-active {
-  background: #363636;
+  background: var(--dot-active);
   transform: scale(1.25);
 }
 
@@ -209,11 +211,11 @@
 .slideshow-no-swipe .video-compare-container {
   border-radius: 10px;
   overflow: hidden;
-  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.14);
+  box-shadow: 0 4px 16px var(--shadow);
 }
 
 .slideshow-no-swipe .slideshow-slide.is-active .video-compare-container {
-  box-shadow: 0 8px 28px rgba(0, 0, 0, 0.2);
+  box-shadow: 0 8px 28px var(--shadow-raised);
 }
 
 /* ---- Tablet ---- */
@@ -234,22 +236,25 @@
     --slideshow-gap: 12px;
   }
 
-  /* Neighbours still occupy the ring — they are what the next step animates in
-     from — but are transparent, so nothing shows at the column edges. No scale
-     either: at full width there is no peek for it to distinguish.
-     `visibility: hidden` on top of the transparency takes them out of hit-testing,
-     so a sideways drag on a phone cannot catch a slide sitting off-screen and pan
-     the page with it. Visibility is animatable-adjacent enough that the incoming
-     slide is already visible by the time the transform starts. */
+  /* Neighbours stay fully opaque here, exactly as on desktop — they are simply
+     off-screen. With `--slideshow-peek: 1` each slide is the full column width, so
+     the seats either side sit entirely outside the viewport, and `overflow-x: clip`
+     up there hides them and takes them out of hit-testing.
+
+     They used to be `opacity: 0` + `visibility: hidden`, which made a step three
+     animations on disagreeing timelines: transform on a cubic-bezier, opacity on
+     ease, and visibility — a *discrete* property that cannot be eased, so it flipped
+     to visible at the start of the move while opacity was still 0. Mid-step two
+     slides were both part-transparent and the page showed through both, which is the
+     flash; and because only one slide is ever on screen at this width, the translate
+     underneath it was motion nobody could see. The result read as a fade that was
+     also sliding, with two curves fighting.
+
+     Now a step is one property on one curve, identical to the desktop feel: the ring
+     translates and the content follows the thumb. No scale, since at full width there
+     is no peek for it to distinguish. */
   .slideshow-slide {
     --slideshow-scale: 1;
-    opacity: 0;
-    visibility: hidden;
-  }
-
-  .slideshow-slide.is-active {
-    opacity: 1;
-    visibility: visible;
   }
 
   .slideshow-controls {
@@ -275,15 +280,15 @@
   .slideshow-prev:hover,
   .slideshow-next:hover {
     background: none;
-    color: #363636;
+    color: var(--arrow);
   }
 
   .slideshow-dot:hover {
-    background: #8f8f8f;
+    background: var(--dot);
   }
 
   .slideshow-dot.is-active:hover {
-    background: #363636;
+    background: var(--dot-active);
   }
 }
 

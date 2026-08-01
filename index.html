@@ -2,6 +2,23 @@
 <html lang="en">
 
 <head>
+    <!-- Theme, set before anything paints. This has to be an inline, non-deferred
+         script at the very top of <head>: a deferred file would let the page paint in
+         the wrong theme and then correct it, which is a visible flash on every load. -->
+    <script>
+        (function () {
+            var t = 'light';
+            try { t = localStorage.getItem('theme-preference') || 'light'; } catch (e) { }
+            document.documentElement.setAttribute('data-theme', t);
+            // Also stamp the browser-chrome colour here rather than leaving it to the
+            // deferred switcher, so a page arriving dark never shows white chrome first.
+            document.addEventListener('DOMContentLoaded', function () {
+                var m = document.querySelector('meta[name="theme-color"]');
+                if (m) m.setAttribute('content', t === 'dark' ? '#000000' : '#ffffff');
+            });
+        })();
+    </script>
+
     <meta charset="utf-8">
     <meta name="description"
         content="SplatSuRe: Selective Super-Resolution for Multi-view Consistent 3D Gaussian Splatting. Enhance 3D Gaussian Splatting from low-resolution training images by injecting super-resolution only in regions lacking high-frequency supervision from other views, yielding sharper, more faithful reconstructions while preserving multi-view consistency.">
@@ -157,31 +174,33 @@
     <!-- Fonts. Noto Sans is self-hosted (see tools/build-webfonts.sh); Google
          Sans is proprietary, so it stays on Google's CDN but loads without
          blocking first paint, falling back to Noto Sans until it arrives. -->
-    <link rel="preload" href="./static/webfonts/noto-sans-latin.woff2?v=2026.07.31.3" as="font"
+    <link rel="preload" href="./static/webfonts/noto-sans-latin.woff2?v=2026.08.01.6" as="font"
         type="font/woff2" crossorigin>
-    <link rel="stylesheet" href="./static/css/noto-sans.css?v=2026.07.31.3">
+    <link rel="stylesheet" href="./static/css/noto-sans.css?v=2026.08.01.6">
     <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Google+Sans&display=swap"
         media="print" onload="this.media='all'">
     <noscript>
         <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Google+Sans&display=swap">
     </noscript>
 
-    <link rel="stylesheet" href="./static/css/bulma.min.css?v=2026.07.31.3">
-    <link rel="stylesheet" href="./static/css/rhythm.css?v=2026.07.31.3">
-    <link rel="stylesheet" href="./static/css/icons.css?v=2026.07.31.3">
-    <link rel="stylesheet" href="./static/css/slideshow.css?v=2026.07.31.3">
-    <link rel="stylesheet" href="./static/css/pdf-modal.css?v=2026.07.31.3">
-    <link rel="stylesheet" href="./static/css/index.css?v=2026.07.31.3">
-    <link rel="stylesheet" href="./static/css/interactions.css?v=2026.07.31.3">
-    <link rel="icon" href="./static/images/favicon.svg?v=2026.07.31.3" type="image/svg+xml">
-    <link rel="icon" href="./static/images/favicon.png?v=2026.07.31.3" type="image/png" sizes="32x32">
-    <link rel="icon" href="./static/images/favicon.ico?v=2026.07.31.3" sizes="any">
-    <link rel="apple-touch-icon" href="./static/images/favicon.png?v=2026.07.31.3">
+    <link rel="stylesheet" href="./static/css/bulma.min.css?v=2026.08.01.6">
+    <link rel="stylesheet" href="./static/css/theme.css?v=2026.08.01.6">
+    <link rel="stylesheet" href="./static/css/rhythm.css?v=2026.08.01.6">
+    <link rel="stylesheet" href="./static/css/icons.css?v=2026.08.01.6">
+    <link rel="stylesheet" href="./static/css/slideshow.css?v=2026.08.01.6">
+    <link rel="stylesheet" href="./static/css/pdf-modal.css?v=2026.08.01.6">
+    <link rel="stylesheet" href="./static/css/index.css?v=2026.08.01.6">
+    <link rel="stylesheet" href="./static/css/interactions.css?v=2026.08.01.6">
+    <link rel="icon" href="./static/images/favicon.svg?v=2026.08.01.6" type="image/svg+xml">
+    <link rel="icon" href="./static/images/favicon.png?v=2026.08.01.6" type="image/png" sizes="32x32">
+    <link rel="icon" href="./static/images/favicon.ico?v=2026.08.01.6" sizes="any">
+    <link rel="apple-touch-icon" href="./static/images/favicon.png?v=2026.08.01.6">
 
-    <script defer src="./static/js/video_comparison.js?v=2026.07.31.3"></script>
-    <script defer src="./static/js/slideshow.js?v=2026.07.31.3"></script>
-    <script defer src="./static/js/script.js?v=2026.07.31.3"></script>
-    <script defer src="./static/js/pdf-modal.js?v=2026.07.31.3"></script>
+    <script defer src="./static/js/video_comparison.js?v=2026.08.01.6"></script>
+    <script defer src="./static/js/slideshow.js?v=2026.08.01.6"></script>
+    <script defer src="./static/js/script.js?v=2026.08.01.6"></script>
+    <script defer src="./static/js/pdf-modal.js?v=2026.08.01.6"></script>
+    <script defer src="./static/js/theme-switcher.js?v=2026.08.01.6"></script>
     <!-- tex-chtml, not tex-mml-chtml: the -mml- bundle adds a MathML *input*
          processor and there is no <math> markup on this page, so it was dead
          weight. Same CHTML output, so equations render identically. The config
@@ -264,7 +283,7 @@
                                     </a>
                                     </span>
                                     <span class="link-block">
-                                    <a href="static/files/splatsure_poster.pdf?v=2026.07.31.3"
+                                    <a href="static/files/splatsure_poster.pdf?v=2026.08.01.6"
                                     title="SplatSuRe: Selective Super-Resolution for Multi-view Consistent 3D Gaussian Splatting"
                                     class="external-link button is-normal is-rounded is-dark" target="_blank"
                                     rel="noopener noreferrer">
@@ -307,7 +326,7 @@
                 <div class="container is-centered">
                     <div class="video-compare-container">
                         <video class="video" id="v1" loop playsinline autoplay muted
-                    poster="static/images/church_poster.jpg?v=2026.07.31.3" src="static/videos/church_compressed.mp4?v=2026.07.31.3"
+                    poster="static/images/church_poster.jpg?v=2026.08.01.6" src="static/videos/church_compressed.mp4?v=2026.08.01.6"
                     onplay="resizeAndPlay(this)"
                     aria-label="Source video for the Church comparison slider: SRGS and SplatSuRe renders side by side"></video>
                     <canvas class="videoMerge" id="v1Merge" role="img"
@@ -367,7 +386,7 @@
                             blurred regions in the model.
                         </p>
 
-                        <img src="static/images/pipeline.webp?v=2026.07.31.3" alt="SplatSuRe pipeline"
+                        <img src="static/images/pipeline.webp?v=2026.08.01.6" alt="SplatSuRe pipeline"
                         class="paper-figure" loading="lazy">
 
                         <p>
@@ -404,7 +423,7 @@
                         </p>
 
                         <div class="figure-centered">
-                            <img src="static/images/disparity.webp?v=2026.07.31.3"
+                            <img src="static/images/disparity.webp?v=2026.08.01.6"
                                 alt="Multi-view sampling disparity" loading="lazy">
                         </div>
 
@@ -526,9 +545,9 @@
                                     <div class="slideshow-slide">
                                         <div class="columns is-multiline is-centered">
                                             <div class="column is-half">
-                                                <div class="bal-container-small">
+                                                <div class="bal-container-small" style="aspect-ratio: 980 / 544;">
                                                     <div class="bal-after">
-                                                        <img src="./static/images/tnt_train.00000.srgs_manualBubbles.webp?v=2026.07.31.3"
+                                                        <img src="./static/images/tnt_train.00000.srgs_manualBubbles.webp?v=2026.08.01.6"
                                                         alt="SRGS [Feng et al.] result on Train scene" loading="lazy">
                                                         <div class="bal-afterPosition afterLabel">
                                                             SRGS [Feng et al.]
@@ -536,7 +555,7 @@
                                                     </div>
                                                     <div class="bal-before">
                                                         <div class="bal-before-inset">
-                                                            <img src="./static/images/tnt_train.00000.ours_manualBubbles.webp?v=2026.07.31.3"
+                                                            <img src="./static/images/tnt_train.00000.ours_manualBubbles.webp?v=2026.08.01.6"
                                                             alt="SplatSuRe result on Train scene" loading="lazy">
                                                             <div class="bal-beforePosition beforeLabel">
                                                                 SplatSuRe (Ours)
@@ -550,9 +569,9 @@
                                                 </div>
                                             </div>
                                             <div class="column is-half">
-                                                <div class="bal-container-small">
+                                                <div class="bal-container-small" style="aspect-ratio: 980 / 544;">
                                                     <div class="bal-after">
-                                                        <img src="./static/images/tnt_truck.00031.srgs_manualBubbles.webp?v=2026.07.31.3"
+                                                        <img src="./static/images/tnt_truck.00031.srgs_manualBubbles.webp?v=2026.08.01.6"
                                                         alt="SRGS [Feng et al.] result on Truck scene" loading="lazy">
                                                         <div class="bal-afterPosition afterLabel">
                                                             SRGS [Feng et al.]
@@ -560,7 +579,7 @@
                                                     </div>
                                                     <div class="bal-before">
                                                         <div class="bal-before-inset">
-                                                            <img src="./static/images/tnt_truck.00031.ours_manualBubbles.webp?v=2026.07.31.3"
+                                                            <img src="./static/images/tnt_truck.00031.ours_manualBubbles.webp?v=2026.08.01.6"
                                                             alt="SplatSuRe result on Truck scene" loading="lazy">
                                                             <div class="bal-beforePosition beforeLabel">
                                                                 SplatSuRe (Ours)
@@ -574,9 +593,9 @@
                                                 </div>
                                             </div>
                                             <div class="column is-half">
-                                                <div class="bal-container-small">
+                                                <div class="bal-container-small" style="aspect-ratio: 980 / 544;">
                                                     <div class="bal-after">
-                                                        <img src="./static/images/tnt_ballroom.00028.srgs_manualBubbles.webp?v=2026.07.31.3"
+                                                        <img src="./static/images/tnt_ballroom.00028.srgs_manualBubbles.webp?v=2026.08.01.6"
                                                         alt="SRGS [Feng et al.] result on Ballroom scene" loading="lazy">
                                                         <div class="bal-afterPosition afterLabel">
                                                             SRGS [Feng et al.]
@@ -584,7 +603,7 @@
                                                     </div>
                                                     <div class="bal-before">
                                                         <div class="bal-before-inset">
-                                                            <img src="./static/images/tnt_ballroom.00028.ours_manualBubbles.webp?v=2026.07.31.3"
+                                                            <img src="./static/images/tnt_ballroom.00028.ours_manualBubbles.webp?v=2026.08.01.6"
                                                             alt="SplatSuRe result on Ballroom scene" loading="lazy">
                                                             <div class="bal-beforePosition beforeLabel">
                                                                 SplatSuRe (Ours)
@@ -598,9 +617,9 @@
                                                 </div>
                                             </div>
                                             <div class="column is-half">
-                                                <div class="bal-container-small">
+                                                <div class="bal-container-small" style="aspect-ratio: 976 / 544;">
                                                     <div class="bal-after">
-                                                        <img src="./static/images/tnt_horse.00008.srgs_manualBubbles.webp?v=2026.07.31.3"
+                                                        <img src="./static/images/tnt_horse.00008.srgs_manualBubbles.webp?v=2026.08.01.6"
                                                         alt="SRGS [Feng et al.] result on Horse scene" loading="lazy">
                                                         <div class="bal-afterPosition afterLabel">
                                                             SRGS [Feng et al.]
@@ -608,7 +627,7 @@
                                                     </div>
                                                     <div class="bal-before">
                                                         <div class="bal-before-inset">
-                                                            <img src="./static/images/tnt_horse.00008.ours_manualBubbles.webp?v=2026.07.31.3"
+                                                            <img src="./static/images/tnt_horse.00008.ours_manualBubbles.webp?v=2026.08.01.6"
                                                             alt="SplatSuRe result on Horse scene" loading="lazy">
                                                             <div class="bal-beforePosition beforeLabel">
                                                                 SplatSuRe (Ours)
@@ -626,9 +645,9 @@
                                     <div class="slideshow-slide">
                                         <div class="columns is-multiline is-centered">
                                             <div class="column is-half">
-                                                <div class="bal-container-small">
+                                                <div class="bal-container-small" style="aspect-ratio: 976 / 544;">
                                                     <div class="bal-after">
-                                                        <img src="./static/images/tnt_barn.00051.srgs_manualBubbles.webp?v=2026.07.31.3"
+                                                        <img src="./static/images/tnt_barn.00051.srgs_manualBubbles.webp?v=2026.08.01.6"
                                                         alt="SRGS [Feng et al.] result on Barn scene" loading="lazy">
                                                         <div class="bal-afterPosition afterLabel">
                                                             SRGS [Feng et al.]
@@ -636,7 +655,7 @@
                                                     </div>
                                                     <div class="bal-before">
                                                         <div class="bal-before-inset">
-                                                            <img src="./static/images/tnt_barn.00051.ours_manualBubbles.webp?v=2026.07.31.3"
+                                                            <img src="./static/images/tnt_barn.00051.ours_manualBubbles.webp?v=2026.08.01.6"
                                                             alt="SplatSuRe result on Barn scene" loading="lazy">
                                                             <div class="bal-beforePosition beforeLabel">
                                                                 SplatSuRe (Ours)
@@ -650,9 +669,9 @@
                                                 </div>
                                             </div>
                                             <div class="column is-half">
-                                                <div class="bal-container-small">
+                                                <div class="bal-container-small" style="aspect-ratio: 980 / 544;">
                                                     <div class="bal-after">
-                                                        <img src="./static/images/tnt_caterpillar.00004.srgs_manualBubbles.webp?v=2026.07.31.3"
+                                                        <img src="./static/images/tnt_caterpillar.00004.srgs_manualBubbles.webp?v=2026.08.01.6"
                                                         alt="SRGS [Feng et al.] result on Caterpillar scene" loading="lazy">
                                                         <div class="bal-afterPosition afterLabel">
                                                             SRGS [Feng et al.]
@@ -660,7 +679,7 @@
                                                     </div>
                                                     <div class="bal-before">
                                                         <div class="bal-before-inset">
-                                                            <img src="./static/images/tnt_caterpillar.00004.ours_manualBubbles.webp?v=2026.07.31.3"
+                                                            <img src="./static/images/tnt_caterpillar.00004.ours_manualBubbles.webp?v=2026.08.01.6"
                                                             alt="SplatSuRe result on Caterpillar scene" loading="lazy">
                                                             <div class="bal-beforePosition beforeLabel">
                                                                 SplatSuRe (Ours)
@@ -674,9 +693,9 @@
                                                 </div>
                                             </div>
                                             <div class="column is-half">
-                                                <div class="bal-container-small">
+                                                <div class="bal-container-small" style="aspect-ratio: 1076 / 548;">
                                                     <div class="bal-after">
-                                                        <img src="./static/images/tnt_lighthouse.00015.srgs_manualBubbles.webp?v=2026.07.31.3"
+                                                        <img src="./static/images/tnt_lighthouse.00015.srgs_manualBubbles.webp?v=2026.08.01.6"
                                                         alt="SRGS [Feng et al.] result on Lighthouse scene" loading="lazy">
                                                         <div class="bal-afterPosition afterLabel">
                                                             SRGS [Feng et al.]
@@ -684,7 +703,7 @@
                                                     </div>
                                                     <div class="bal-before">
                                                         <div class="bal-before-inset">
-                                                            <img src="./static/images/tnt_lighthouse.00015.ours_manualBubbles.webp?v=2026.07.31.3"
+                                                            <img src="./static/images/tnt_lighthouse.00015.ours_manualBubbles.webp?v=2026.08.01.6"
                                                             alt="SplatSuRe result on Lighthouse scene" loading="lazy">
                                                             <div class="bal-beforePosition beforeLabel">
                                                                 SplatSuRe (Ours)
@@ -698,9 +717,9 @@
                                                 </div>
                                             </div>
                                             <div class="column is-half">
-                                                <div class="bal-container-small">
+                                                <div class="bal-container-small" style="aspect-ratio: 1008 / 548;">
                                                     <div class="bal-after">
-                                                        <img src="./static/images/tnt_playground.00010.srgs_manualBubbles.webp?v=2026.07.31.3"
+                                                        <img src="./static/images/tnt_playground.00010.srgs_manualBubbles.webp?v=2026.08.01.6"
                                                         alt="SRGS [Feng et al.] result on Playground scene" loading="lazy">
                                                         <div class="bal-afterPosition afterLabel">
                                                             SRGS [Feng et al.]
@@ -708,7 +727,7 @@
                                                     </div>
                                                     <div class="bal-before">
                                                         <div class="bal-before-inset">
-                                                            <img src="./static/images/tnt_playground.00010.ours_manualBubbles.webp?v=2026.07.31.3"
+                                                            <img src="./static/images/tnt_playground.00010.ours_manualBubbles.webp?v=2026.08.01.6"
                                                             alt="SplatSuRe result on Playground scene" loading="lazy">
                                                             <div class="bal-beforePosition beforeLabel">
                                                                 SplatSuRe (Ours)
@@ -726,9 +745,9 @@
                                     <div class="slideshow-slide">
                                         <div class="columns is-multiline is-centered">
                                             <div class="column is-half">
-                                                <div class="bal-container-small">
+                                                <div class="bal-container-small" style="aspect-ratio: 976 / 544;">
                                                     <div class="bal-after">
-                                                        <img src="./static/images/tnt_ignatius.00007.srgs_manualBubbles.webp?v=2026.07.31.3"
+                                                        <img src="./static/images/tnt_ignatius.00007.srgs_manualBubbles.webp?v=2026.08.01.6"
                                                         alt="SRGS [Feng et al.] result on Ignatius scene" loading="lazy">
                                                         <div class="bal-afterPosition afterLabel">
                                                             SRGS [Feng et al.]
@@ -736,7 +755,7 @@
                                                     </div>
                                                     <div class="bal-before">
                                                         <div class="bal-before-inset">
-                                                            <img src="./static/images/tnt_ignatius.00007.ours_manualBubbles.webp?v=2026.07.31.3"
+                                                            <img src="./static/images/tnt_ignatius.00007.ours_manualBubbles.webp?v=2026.08.01.6"
                                                             alt="SplatSuRe result on Ignatius scene" loading="lazy">
                                                             <div class="bal-beforePosition beforeLabel">
                                                                 SplatSuRe (Ours)
@@ -750,9 +769,9 @@
                                                 </div>
                                             </div>
                                             <div class="column is-half">
-                                                <div class="bal-container-small">
+                                                <div class="bal-container-small" style="aspect-ratio: 1072 / 548;">
                                                     <div class="bal-after">
-                                                        <img src="./static/images/tnt_panther.00009.srgs_manualBubbles.webp?v=2026.07.31.3"
+                                                        <img src="./static/images/tnt_panther.00009.srgs_manualBubbles.webp?v=2026.08.01.6"
                                                         alt="SRGS [Feng et al.] result on Panther scene" loading="lazy">
                                                         <div class="bal-afterPosition afterLabel">
                                                             SRGS [Feng et al.]
@@ -760,7 +779,7 @@
                                                     </div>
                                                     <div class="bal-before">
                                                         <div class="bal-before-inset">
-                                                            <img src="./static/images/tnt_panther.00009.ours_manualBubbles.webp?v=2026.07.31.3"
+                                                            <img src="./static/images/tnt_panther.00009.ours_manualBubbles.webp?v=2026.08.01.6"
                                                             alt="SplatSuRe result on Panther scene" loading="lazy">
                                                             <div class="bal-beforePosition beforeLabel">
                                                                 SplatSuRe (Ours)
@@ -774,9 +793,9 @@
                                                 </div>
                                             </div>
                                             <div class="column is-half">
-                                                <div class="bal-container-small">
+                                                <div class="bal-container-small" style="aspect-ratio: 1328 / 876;">
                                                     <div class="bal-after">
-                                                        <img src="./static/images/db_drjohnson.00032.srgs_manualBubbles.webp?v=2026.07.31.3"
+                                                        <img src="./static/images/db_drjohnson.00032.srgs_manualBubbles.webp?v=2026.08.01.6"
                                                         alt="SRGS [Feng et al.] result on Dr. Johnson scene" loading="lazy">
                                                         <div class="bal-afterPosition afterLabel">
                                                             SRGS [Feng et al.]*
@@ -784,7 +803,7 @@
                                                     </div>
                                                     <div class="bal-before">
                                                         <div class="bal-before-inset">
-                                                            <img src="./static/images/db_drjohnson.00032.ours_manualBubbles.webp?v=2026.07.31.3"
+                                                            <img src="./static/images/db_drjohnson.00032.ours_manualBubbles.webp?v=2026.08.01.6"
                                                             alt="SplatSuRe result on Dr. Johnson scene" loading="lazy">
                                                             <div class="bal-beforePosition beforeLabel">
                                                                 SplatSuRe (Ours)*
@@ -798,9 +817,9 @@
                                                 </div>
                                             </div>
                                             <div class="column is-half">
-                                                <div class="bal-container-small">
+                                                <div class="bal-container-small" style="aspect-ratio: 1556 / 1040;">
                                                     <div class="bal-after">
-                                                        <img src="./static/images/m360_counter.00010.srgs_manualBubbles.webp?v=2026.07.31.3"
+                                                        <img src="./static/images/m360_counter.00010.srgs_manualBubbles.webp?v=2026.08.01.6"
                                                         alt="SRGS [Feng et al.] result on Counter scene" loading="lazy">
                                                         <div class="bal-afterPosition afterLabel">
                                                             SRGS [Feng et al.]
@@ -808,7 +827,7 @@
                                                     </div>
                                                     <div class="bal-before">
                                                         <div class="bal-before-inset">
-                                                            <img src="./static/images/m360_counter.00010.ours_manualBubbles.webp?v=2026.07.31.3"
+                                                            <img src="./static/images/m360_counter.00010.ours_manualBubbles.webp?v=2026.08.01.6"
                                                             alt="SplatSuRe result on Counter scene" loading="lazy">
                                                             <div class="bal-beforePosition beforeLabel">
                                                                 SplatSuRe (Ours)
@@ -887,12 +906,23 @@
             </div>
 
             <h2 class="title is-3">Related Work</h2>
-            SplatSuRe formed the foundation of the NJUST_CSA team's winning solution in Track 1 of the <a
-            href="https://openaccess.thecvf.com/content/CVPR2026W/NTIRE/papers/Wang_NTIRE_2026_Challenge_on_3D_Content_Super-Resolution_Methods_and_Results_CVPRW_2026_paper.pdf"
-            target="_blank" rel="noopener noreferrer">1st
-            NTIRE Challenge on 3D Content Super-Resolution</a> at <a href="https://www.cvlai.net/ntire/2026/"
-            target="_blank" rel="noopener noreferrer">CVPR
-            2026</a>.
+            <p>SplatSuRe was applied in the challenge below. If your research builds on ours, we encourage you to
+                cite both papers.</p>
+            <ul class="related-list">
+                <li class="related-item">
+                    <p class="related-title">
+                        <a href="https://openaccess.thecvf.com/content/CVPR2026W/NTIRE/papers/Wang_NTIRE_2026_Challenge_on_3D_Content_Super-Resolution_Methods_and_Results_CVPRW_2026_paper.pdf"
+                            target="_blank" rel="noopener noreferrer">
+                            NTIRE 2026 Challenge on 3D Content Super-Resolution: Methods and Results</a>
+                    </p>
+                    <p class="related-meta">
+                        <span class="related-venue">CVPR 2026 Workshops</span>
+                    </p>
+                    SplatSuRe formed the foundation of the NJUST_CSA team’s winning solution in Track&nbsp;1 of the
+                    first NTIRE challenge on 3D content super-resolution, which tasked entrants with rendering
+                    high-resolution novel views of scenes reconstructed from low-resolution inputs.
+                </li>
+            </ul>
         </div>
     </section>
     </main>
@@ -909,7 +939,7 @@
                 aria-label="arXiv abstract page">
                 <i class="ai ai-arxiv" aria-hidden="true"></i>
                 </a>
-                <a class="icon-link" href="static/files/splatsure_poster.pdf?v=2026.07.31.3" target="_blank"
+                <a class="icon-link" href="static/files/splatsure_poster.pdf?v=2026.08.01.6" target="_blank"
                 rel="noopener noreferrer"
                 title="SplatSuRe: Selective Super-Resolution for Multi-view Consistent 3D Gaussian Splatting"
                 aria-label="Poster PDF">
@@ -923,6 +953,17 @@
                 rel="noopener noreferrer" aria-label="Code on GitHub">
                 <i class="fab fa-github" aria-hidden="true"></i>
                 </a>
+                <!-- Theme toggle. A <button> rather than an <a>: it performs an action on
+                     this page instead of going anywhere, so it belongs in the tab order
+                     as a button and needs no href. The sun and moon are stacked inside a
+                     one-em window and slide past each other on hover. -->
+                <button type="button" class="icon-link" id="theme-toggle"
+                aria-label="Switch to dark mode" aria-pressed="false">
+                <span class="theme-icon-wrap">
+                <i class="fas fa-sun theme-icon theme-icon-sun" aria-hidden="true"></i>
+                <i class="fas fa-moon theme-icon theme-icon-moon" aria-hidden="true"></i>
+                </span>
+                </button>
             </div>
             <div class="columns is-centered">
                 <div class="column is-8">

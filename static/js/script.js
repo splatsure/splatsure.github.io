@@ -44,9 +44,15 @@ class BeforeAfter {
 
         // Clamp so the handle cannot be dragged off either end, which would
         // leave one image entirely hidden and the handle stranded at the edge.
+        /* The rect is cached rather than read per event. `setPosition` reads geometry and
+           then writes two styles, so reading it on every `mousemove` forced a layout
+           flush per pointer event — and splatsure carries twelve of these sliders. The
+           rect only changes when the layout does, so it is invalidated on resize and on
+           re-entry instead. */
+        let rect = null;
         const setPosition = (clientX) => {
-            const rect = container.getBoundingClientRect();
-            if (!rect.width) return;
+            if (!rect) rect = container.getBoundingClientRect();
+            if (!rect.width) { rect = null; return; }
             const pct = Math.max(0, Math.min(100,
                 ((clientX - rect.left) / rect.width) * 100));
             before.style.width = pct + '%';
@@ -73,7 +79,10 @@ class BeforeAfter {
 
         // Mouse: follow the pointer directly, which is what makes these feel
         // immediate on desktop — no click needed.
-        container.addEventListener('mousemove', (e) => setPosition(e.clientX));
+        container.addEventListener('mouseenter', () => { rect = null; });
+        container.addEventListener('mousemove', (e) => setPosition(e.clientX),
+            { passive: true });
+        window.addEventListener('resize', () => { rect = null; }, { passive: true });
     }
 }
 

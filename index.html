@@ -1,77 +1,145 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 
 <head>
     <meta charset="utf-8">
     <meta name="description"
-        content="SplatSuRe enhances 3D Gaussian Splatting from low-resolution training images by injecting super-resolution only in regions lacking high-frequency supervision from other views, yielding sharper, more faithful reconstructions while preserving multi-view consistency.">
+        content="SplatSuRe: Selective Super-Resolution for Multi-view Consistent 3D Gaussian Splatting. Enhance 3D Gaussian Splatting from low-resolution training images by injecting super-resolution only in regions lacking high-frequency supervision from other views, yielding sharper, more faithful reconstructions while preserving multi-view consistency.">
     <meta name="keywords"
         content="3D Gaussian Splatting, 3DGS, novel view synthesis, super-resolution, selective super-resolution, multi-view consistency, high-frequency detail, low-resolution views, undersampled regions, camera pose geometry, dynamic reconstruction, high-fidelity rendering, perceptual quality, multi-view SR, Tanks and Temples, Deep Blending, Mip-NeRF 360, scene geometry–aware SR, Gaussian Splatting super-resolution, high-resolution rendering, multi-view reconstruction">
     <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="theme-color" content="#ffffff">
     <title>SplatSuRe: Selective Super-Resolution for Multi-view Consistent 3D Gaussian Splatting</title>
 
     <!-- Canonical Link -->
     <link rel="canonical" href="https://splatsure.github.io/">
+    <meta name="robots" content="index,follow">
+
+    <!-- Resource Hints. Only origins the page still contacts: Google Fonts
+         for the async Google Sans, and jsDelivr for MathJax. The icon fonts
+         and Bulma are self-hosted now, and jQuery is gone entirely. -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link rel="preconnect" href="https://cdn.jsdelivr.net">
+    <link rel="dns-prefetch" href="https://www.googletagmanager.com">
+
 
     <!-- Open Graph Tags -->
     <meta property="og:title"
         content="SplatSuRe: Selective Super-Resolution for Multi-view Consistent 3D Gaussian Splatting">
     <meta property="og:description"
-        content="SplatSuRe enhances 3D Gaussian Splatting from low-resolution training images by injecting super-resolution only in regions lacking high-frequency supervision from other views, yielding sharper, more faithful reconstructions while preserving multi-view consistency.">
+        content="Enhance 3D Gaussian Splatting from low-resolution training images by injecting super-resolution only in regions lacking high-frequency supervision from other views, yielding sharper, more faithful reconstructions while preserving multi-view consistency.">
     <meta property="og:url" content="https://splatsure.github.io/">
-    <meta property="og:image" content="https://splatsure.github.io/static/images/teaser.webp?v=2026.03.08.1">
+    <meta property="og:image" content="https://splatsure.github.io/static/images/teaser_card.jpg">
+    <meta property="og:image:width" content="1200">
+    <meta property="og:image:height" content="630">
+    <meta property="og:image:alt"
+        content="Three renders of the Train scene with zoomed insets on the locomotive lettering: SRGS at 23.11 PSNR and 0.234 LPIPS, ours at 24.29 PSNR and 0.206 LPIPS, and the ground truth.">
     <meta property="og:type" content="website">
     <meta property="og:site_name" content="SplatSuRe">
+    <meta property="og:locale" content="en_US">
 
     <!-- Twitter Card Tags -->
     <meta name="twitter:card" content="summary_large_image">
     <meta name="twitter:title"
         content="SplatSuRe: Selective Super-Resolution for Multi-view Consistent 3D Gaussian Splatting">
     <meta name="twitter:description"
-        content="SplatSuRe enhances 3D Gaussian Splatting from low-resolution training images by injecting super-resolution only in regions lacking high-frequency supervision from other views, yielding sharper, more faithful reconstructions while preserving multi-view consistency.">
-    <meta name="twitter:image" content="https://splatsure.github.io/static/images/teaser.webp?v=2026.03.08.1">
+        content="Enhance 3D Gaussian Splatting from low-resolution training images by injecting super-resolution only in regions lacking high-frequency supervision from other views, yielding sharper, more faithful reconstructions while preserving multi-view consistency.">
+    <meta name="twitter:image" content="https://splatsure.github.io/static/images/teaser_card.jpg">
+    <meta name="twitter:image:alt"
+        content="Three renders of the Train scene with zoomed insets on the locomotive lettering: SRGS at 23.11 PSNR and 0.234 LPIPS, ours at 24.29 PSNR and 0.206 LPIPS, and the ground truth.">
+    <meta name="twitter:url" content="https://splatsure.github.io/">
 
     <!-- Structured Data (JSON-LD) -->
     <script type="application/ld+json">
     {
       "@context": "https://schema.org",
       "@type": "ScholarlyArticle",
+      "@id": "https://splatsure.github.io/#article",
       "headline": "SplatSuRe: Selective Super-Resolution for Multi-view Consistent 3D Gaussian Splatting",
       "author": [
         {
           "@type": "Person",
           "name": "Pranav Asthana",
-          "url": "https://pranav-asthana.github.io/"
+          "url": "https://pranav-asthana.github.io/",
+          "affiliation": {
+            "@type": "CollegeOrUniversity",
+            "name": "University of Maryland, College Park"
+          }
         },
         {
           "@type": "Person",
           "name": "Alex Hanson",
-          "url": "https://www.cs.umd.edu/~hanson/"
+          "url": "https://www.cs.umd.edu/~hanson/",
+          "affiliation": {
+            "@type": "CollegeOrUniversity",
+            "name": "University of Maryland, College Park"
+          }
         },
         {
           "@type": "Person",
+          "@id": "https://tuallen.github.io/#person",
           "name": "Allen Tu",
-          "url": "https://tuallen.github.io"
+          "url": "https://tuallen.github.io",
+          "affiliation": {
+            "@type": "CollegeOrUniversity",
+            "name": "University of Maryland, College Park"
+          }
         },
         {
-            "@type": "Person",
-            "name": "Tom Goldstein",
-            "url": "https://www.cs.umd.edu/~tomg/"
+          "@type": "Person",
+          "name": "Tom Goldstein",
+          "url": "https://www.cs.umd.edu/~tomg/",
+          "affiliation": {
+            "@type": "CollegeOrUniversity",
+            "name": "University of Maryland, College Park"
+          }
         },
         {
-            "@type": "Person",
-            "name": "Matthias Zwicker",
-            "url": "https://www.cs.umd.edu/~zwicker/"
+          "@type": "Person",
+          "name": "Matthias Zwicker",
+          "url": "https://www.cs.umd.edu/~zwicker/",
+          "affiliation": {
+            "@type": "CollegeOrUniversity",
+            "name": "University of Maryland, College Park"
+          }
         },
         {
-            "@type": "Person",
-            "name": "Amitabh Varshney",
-            "url": "https://www.cs.umd.edu/~varshney/"
+          "@type": "Person",
+          "name": "Amitabh Varshney",
+          "url": "https://www.cs.umd.edu/~varshney/",
+          "affiliation": {
+            "@type": "CollegeOrUniversity",
+            "name": "University of Maryland, College Park"
+          }
         }
       ],
-      "description": "SplatSuRe enhances 3D Gaussian Splatting from low-resolution training images by injecting super-resolution only in regions lacking high-frequency supervision from other views, yielding sharper, more faithful reconstructions while preserving multi-view consistency.",
-      "image": "https://splatsure.github.io/static/images/teaser.webp?v=2026.03.08.1",
-      "datePublished": "2025-12-01",
+      "description": "Enhance 3D Gaussian Splatting from low-resolution training images by injecting super-resolution only in regions lacking high-frequency supervision from other views, yielding sharper, more faithful reconstructions while preserving multi-view consistency.",
+      "image": "https://splatsure.github.io/static/images/teaser_card.jpg",
+      "datePublished": "2026-06",
+      "dateCreated": "2025-12-01",
+      "identifier": {
+        "@type": "PropertyValue",
+        "propertyID": "arXiv",
+        "value": "2512.02172"
+      },
+      "sameAs": "https://arxiv.org/abs/2512.02172",
+      "isPartOf": {
+        "@type": "PublicationEvent",
+        "name": "Proceedings of the IEEE/CVF Conference on Computer Vision and Pattern Recognition (CVPR)",
+        "alternateName": "CVPR 2026"
+      },
+      "pagination": "11840-11849",
+      "publisher": {
+        "@type": "Organization",
+        "name": "IEEE"
+      },
+      "inLanguage": "en",
+      "keywords": "3D Gaussian Splatting, 3DGS, novel view synthesis, super-resolution, selective super-resolution, multi-view consistency, high-frequency detail, low-resolution views, undersampled regions, camera pose geometry, dynamic reconstruction, high-fidelity rendering, perceptual quality, multi-view SR, Tanks and Temples, Deep Blending, Mip-NeRF 360, scene geometry–aware SR, Gaussian Splatting super-resolution, high-resolution rendering, multi-view reconstruction",
+      "mainEntityOfPage": {
+        "@type": "WebPage",
+        "@id": "https://splatsure.github.io/"
+      },
       "url": "https://splatsure.github.io/"
     }
     </script>
@@ -82,154 +150,174 @@
         function gtag() { dataLayer.push(arguments); }
         gtag('js', new Date());
 
-        gtag('config', 'G-P1QY74DWKY'); 
+        gtag('config', 'G-P1QY74DWKY');
     </script>
 
 
-    <link href="https://fonts.googleapis.com/css?family=Google+Sans|Noto+Sans|Castoro" rel="stylesheet">
+    <!-- Fonts. Noto Sans is self-hosted (see tools/build-webfonts.sh); Google
+         Sans is proprietary, so it stays on Google's CDN but loads without
+         blocking first paint, falling back to Noto Sans until it arrives. -->
+    <link rel="preload" href="./static/webfonts/noto-sans-latin.woff2?v=2026.07.31.3" as="font"
+        type="font/woff2" crossorigin>
+    <link rel="stylesheet" href="./static/css/noto-sans.css?v=2026.07.31.3">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Google+Sans&display=swap"
+        media="print" onload="this.media='all'">
+    <noscript>
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Google+Sans&display=swap">
+    </noscript>
 
-    <!-- Resource Hints -->
-    <link rel="preconnect" href="https://fonts.googleapis.com/css">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link rel="preconnect" href="https://cdnjs.cloudflare.com">
-    <link rel="preconnect" href="https://cdn.jsdelivr.net">
-    <link rel="preconnect" href="https://ajax.googleapis.com">
+    <link rel="stylesheet" href="./static/css/bulma.min.css?v=2026.07.31.3">
+    <link rel="stylesheet" href="./static/css/rhythm.css?v=2026.07.31.3">
+    <link rel="stylesheet" href="./static/css/icons.css?v=2026.07.31.3">
+    <link rel="stylesheet" href="./static/css/slideshow.css?v=2026.07.31.3">
+    <link rel="stylesheet" href="./static/css/pdf-modal.css?v=2026.07.31.3">
+    <link rel="stylesheet" href="./static/css/index.css?v=2026.07.31.3">
+    <link rel="stylesheet" href="./static/css/interactions.css?v=2026.07.31.3">
+    <link rel="icon" href="./static/images/favicon.svg?v=2026.07.31.3" type="image/svg+xml">
+    <link rel="icon" href="./static/images/favicon.png?v=2026.07.31.3" type="image/png" sizes="32x32">
+    <link rel="icon" href="./static/images/favicon.ico?v=2026.07.31.3" sizes="any">
+    <link rel="apple-touch-icon" href="./static/images/favicon.png?v=2026.07.31.3">
 
-
-    <link rel="stylesheet" href="./static/css/bulma.min.css?v=2026.03.08.1">
-    <link rel="stylesheet" href="./static/css/bulma-carousel.min.css?v=2026.03.08.1">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css"
-        integrity="sha512-Kc323vGBEqzTmouAECnVceyQqyqdsSiqLQISBL29aUW4U/M7pSPA/gEUZQqv1cwx4OnYxTxve5UMg5GT6L4JJg=="
-        crossorigin="anonymous" referrerpolicy="no-referrer" />
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/jpswalsh/academicons@1/css/academicons.min.css">
-    <link rel="stylesheet" href="./static/css/index.css?v=2026.03.08.1">
-    <link rel="icon" href="./static/images/favicon.svg?v=2026.03.08.1" type="image/svg+xml">
-    <link rel="icon" href="./static/images/favicon.png?v=2026.03.08.1" type="image/png" sizes="32x32">
-    <link rel="icon" href="./static/images/favicon.ico?v=2026.03.08.1" sizes="any">
-    <link rel="apple-touch-icon" href="./static/images/favicon.png?v=2026.03.08.1">
-
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
-    <script defer src="./static/js/fontawesome.all.min.js?v=2026.03.08.1"></script>
-    <script src="./static/js/bulma-carousel.min.js?v=2026.03.08.1"></script>
-    <script defer src="./static/js/script.js?v=202602181650"></script>
-    <script defer src="./static/js/video_comparison.js?v=2026.03.08.1"></script>
-    <script defer src="./static/js/index.js?v=2026.03.08.1"></script>
-    <script defer src="./static/js/pdf-modal.js?v=2026.03.09.2"></script>
-    <script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+    <script defer src="./static/js/video_comparison.js?v=2026.07.31.3"></script>
+    <script defer src="./static/js/slideshow.js?v=2026.07.31.3"></script>
+    <script defer src="./static/js/script.js?v=2026.07.31.3"></script>
+    <script defer src="./static/js/pdf-modal.js?v=2026.07.31.3"></script>
+    <!-- tex-chtml, not tex-mml-chtml: the -mml- bundle adds a MathML *input*
+         processor and there is no <math> markup on this page, so it was dead
+         weight. Same CHTML output, so equations render identically. The config
+         must precede the script tag. -->
+    <script>
+        window.MathJax = {
+            tex: {
+                inlineMath: [['\\(', '\\)']],
+                displayMath: [['\\[', '\\]'], ['$$', '$$']]
+            },
+            options: {
+                // Nothing on these pages needs the right-click menu, and skipping it
+                // avoids building its DOM on every typeset.
+                enableMenu: false
+            }
+        };
+    </script>
+    <script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml.js"></script>
 
 </head>
 
 <body>
-    <section class="hero">
-        <div class="hero-body">
-            <div class="container is-max-desktop">
-                <div class="columns is-centered">
-                    <div class="column has-text-centered">
-                        <h1 class="title is-1 publication-title">SplatSuRe: Selective Super-Resolution<br> for
-                            Multi-view Consistent<br>3D Gaussian Splatting</h1>
-                        <div class="is-size-3 publication-venue">CVPR 2026</div>
-                        <div class="is-size-5 publication-authors">
-                            <span class="author-block">
-                                <a href="https://pranav-asthana.github.io/" target="_blank"
-                                    rel="noopener noreferrer">Pranav Asthana</a>,
-                            </span>
-                            <span class="author-block">
-                                <a href="https://www.cs.umd.edu/~hanson/" target="_blank" rel="noopener noreferrer">Alex
-                                    Hanson</a>,</span>
-                            <span class="author-block">
-                                <a href="https://tuallen.github.io" target="_blank" rel="noopener noreferrer">Allen
-                                    Tu</a>,</span>
-                            <span class="author-block">
-                                <a href="https://www.cs.umd.edu/~tomg/" target="_blank" rel="noopener noreferrer">Tom
-                                    Goldstein</a>,
-                            </span>
-                            <span class="author-block">
-                                <a href="https://www.cs.umd.edu/~zwicker/" target="_blank"
-                                    rel="noopener noreferrer">Matthias Zwicker</a>,
-                            </span>
-                            <span class="author-block">
-                                <a href="https://www.cs.umd.edu/~varshney/" target="_blank"
-                                    rel="noopener noreferrer">Amitabh Varshney</a>
-                            </span>
-                        </div>
-
-                        <div class="is-size-5 publication-authors">
-                            <span class="author-block">University of Maryland, College Park</span>
-                        </div>
-
+    <main>
+        <section class="hero">
+            <div class="hero-body">
+                <div class="container is-max-desktop">
+                    <div class="columns is-centered">
                         <div class="column has-text-centered">
-                            <div class="publication-links">
-                                <span class="link-block">
+                            <h1 class="title is-1 publication-title">SplatSuRe: Selective Super-Resolution<br>
+                                for Multi-view Consistent <br><span class="nowrap">3D Gaussian Splatting</span></h1>
+                            <div class="is-size-3 publication-venue">CVPR 2026</div>
+                            <div class="is-size-5 publication-authors">
+                                <span class="author-block">
+                                <a href="https://pranav-asthana.github.io/" target="_blank"
+                                rel="noopener noreferrer">Pranav Asthana</a>,
+                                </span>
+                                <span class="author-block">
+                                <a href="https://www.cs.umd.edu/~hanson/" target="_blank" rel="noopener noreferrer">Alex
+                                Hanson</a>,</span>
+                                <span class="author-block">
+                                <a href="https://tuallen.github.io" target="_blank" rel="noopener noreferrer">Allen
+                                Tu</a>,</span>
+                                <span class="author-block">
+                                <a href="https://www.cs.umd.edu/~tomg/" target="_blank" rel="noopener noreferrer">Tom
+                                Goldstein</a>,
+                                </span>
+                                <span class="author-block">
+                                <a href="https://www.cs.umd.edu/~zwicker/" target="_blank"
+                                rel="noopener noreferrer">Matthias Zwicker</a>,
+                                </span>
+                                <span class="author-block">
+                                <a href="https://www.cs.umd.edu/~varshney/" target="_blank"
+                                rel="noopener noreferrer">Amitabh Varshney</a>
+                                </span>
+                            </div>
+
+                            <div class="is-size-5 publication-authors">
+                                <span class="author-block">University of Maryland, College Park</span>
+                            </div>
+
+                            <div class="column has-text-centered">
+                                <div class="publication-links">
+                                    <span class="link-block">
                                     <a href="https://arxiv.org/pdf/2512.02172" target="_blank" rel="noopener noreferrer"
-                                        title="SplatSuRe: Selective Super-Resolution for Multi-view Consistent 3D Gaussian Splatting"
-                                        class="external-link button is-normal is-rounded is-dark">
-                                        <span class="icon">
-                                            <i class="fas fa-file-pdf"></i>
-                                        </span>
-                                        <span>Paper</span>
+                                    title="SplatSuRe: Selective Super-Resolution for Multi-view Consistent 3D Gaussian Splatting"
+                                    class="external-link button is-normal is-rounded is-dark">
+                                    <span class="icon">
+                                    <i class="fas fa-file-pdf"></i>
+                                    </span>
+                                    <span>Paper</span>
                                     </a>
-                                </span>
-                                <span class="link-block">
+                                    </span>
+                                    <span class="link-block">
                                     <a href="https://arxiv.org/abs/2512.02172" target="_blank" rel="noopener noreferrer"
-                                        class="external-link button is-normal is-rounded is-dark">
-                                        <span class="icon">
-                                            <i class="ai ai-arxiv"></i>
-                                        </span>
-                                        <span>arXiv</span>
+                                    class="external-link button is-normal is-rounded is-dark">
+                                    <span class="icon">
+                                    <i class="ai ai-arxiv"></i>
+                                    </span>
+                                    <span>arXiv</span>
                                     </a>
-                                </span>
-                                <span class="link-block">
-                                    <a href="static/files/splatsure_poster.pdf?v=2026.03.08.1"
-                                        title="SplatSuRe: Selective Super-Resolution for Multi-view Consistent 3D Gaussian Splatting"
-                                        class="external-link button is-normal is-rounded is-dark" target="_blank"
-                                        rel="noopener noreferrer">
-                                        <span class="icon">
-                                            <i class="fas fa-image"></i>
-                                        </span>
-                                        <span>Poster</span>
+                                    </span>
+                                    <span class="link-block">
+                                    <a href="static/files/splatsure_poster.pdf?v=2026.07.31.3"
+                                    title="SplatSuRe: Selective Super-Resolution for Multi-view Consistent 3D Gaussian Splatting"
+                                    class="external-link button is-normal is-rounded is-dark" target="_blank"
+                                    rel="noopener noreferrer">
+                                    <span class="icon">
+                                    <i class="fas fa-image"></i>
+                                    </span>
+                                    <span>Poster</span>
                                     </a>
-                                </span>
-                                <span class="link-block">
+                                    </span>
+                                    <span class="link-block">
                                     <a href="https://youtu.be/2cXgRLQhU2I"
-                                        class="external-link button is-normal is-rounded is-dark" target="_blank"
-                                        rel="noopener noreferrer">
-                                        <span class="icon">
-                                            <i class="fab fa-youtube"></i>
-                                        </span>
-                                        <span>Video</span>
+                                    class="external-link button is-normal is-rounded is-dark" target="_blank"
+                                    rel="noopener noreferrer">
+                                    <span class="icon">
+                                    <i class="fab fa-youtube"></i>
+                                    </span>
+                                    <span>Video</span>
                                     </a>
-                                </span>
-                                <span class="link-block">
+                                    </span>
+                                    <span class="link-block">
                                     <a href="https://github.com/pranav-asthana/SplatSuRe" target="_blank"
-                                        rel="noopener noreferrer"
-                                        class="external-link button is-normal is-rounded is-dark">
-                                        <span class="icon">
-                                            <i class="fab fa-github"></i>
-                                        </span>
-                                        <span>Code</span>
+                                    rel="noopener noreferrer"
+                                    class="external-link button is-normal is-rounded is-dark">
+                                    <span class="icon">
+                                    <i class="fab fa-github"></i>
+                                    </span>
+                                    <span>Code</span>
                                     </a>
-                                </span>
+                                    </span>
+                                </div>
                             </div>
                         </div>
                     </div>
                 </div>
             </div>
-        </div>
-    </section>
+        </section>
 
-    <section class="hero">
-        <div class="hero-teaser">
-            <div class="container is-centered">
-                <div class="video-compare-container">
-                    <video class="video" id="v1" loop playsinline autoplay muted
-                        src="static/videos/church_compressed.mp4?v=2026.03.08.1" onplay="resizeAndPlay(this)"></video>
-                    <canvas class="videoMerge" id="v1Merge"></canvas>
+        <section class="hero">
+            <div class="hero-teaser">
+                <div class="container is-centered">
+                    <div class="video-compare-container">
+                        <video class="video" id="v1" loop playsinline autoplay muted
+                    poster="static/images/church_poster.jpg?v=2026.07.31.3" src="static/videos/church_compressed.mp4?v=2026.07.31.3"
+                    onplay="resizeAndPlay(this)"
+                    aria-label="Source video for the Church comparison slider: SRGS and SplatSuRe renders side by side"></video>
+                    <canvas class="videoMerge" id="v1Merge" role="img"
+                    aria-label="Interactive comparison slider on the Church scene at 4x super-resolution: SRGS [Feng et al.] at 22.54 PSNR and 0.2936 LPIPS on the left half and SplatSuRe (ours) at 23.18 PSNR and 0.2719 LPIPS on the right half, with a draggable divider between them"></canvas>
                 </div>
             </div>
         </div>
     </section>
 
-    <section class="section">
+    <section class="section" id="abstract">
         <div class="container is-max-desktop">
             <div class="columns is-centered has-text-centered">
                 <div class="column is-four-fifths">
@@ -262,22 +350,10 @@
                     </div>
                 </div>
             </div>
-            <!-- Paper video. -->
-            <div class="columns is-centered has-text-centered">
-                <div class="column is-four-fifths">
-                    <h2 class="title is-3">Video</h2>
-                    <div class="publication-video">
-                        <iframe width="560" height="315" src="https://www.youtube.com/embed/2cXgRLQhU2I"
-                            title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; 
-           encrypted-media; " allowfullscreen></iframe>
-
-                    </div>
-                </div>
-            </div>
         </div>
     </section>
 
-    <section class="section">
+    <section class="section" id="method">
         <div class="container is-max-desktop">
             <div class="columns is-centered has-text-centered">
                 <div class="column is-four-fifths">
@@ -291,8 +367,8 @@
                             blurred regions in the model.
                         </p>
 
-                        <img src="static/images/pipeline.webp?v=2026.03.08.1" alt="Pipeline"
-                            style="margin-bottom: 1.5rem; max-width: 100%; height: auto;">
+                        <img src="static/images/pipeline.webp?v=2026.07.31.3" alt="SplatSuRe pipeline"
+                        class="paper-figure" loading="lazy">
 
                         <p>
                             <b>SplatSuRe</b> addresses this through a selective, geometry-aware strategy that
@@ -304,9 +380,9 @@
 
                         <ol>
                             <li><b>a per-Gaussian score</b> that measures how well it is sampled across training
-                                views, and</li>
+                            views, and</li>
                             <li><b>a per-view weight map</b> that highlights undersampled areas while suppressing SR
-                                where LR supervision is already reliable.</li>
+                            where LR supervision is already reliable.</li>
                         </ol>
 
                         <p>
@@ -317,7 +393,7 @@
 
                     </div>
 
-                    <h4 class="title is-4">Gaussian Fidelity Score</h4>
+                    <h3 class="title is-4">Gaussian Fidelity Score</h3>
                     <div class="content has-text-justified">
                         <p>
                             Images capturing a scene do not contribute equal amounts of high-frequency information for
@@ -327,9 +403,9 @@
                             super-resolution (SR).
                         </p>
 
-                        <div class="has-text-centered" style="margin-bottom: 1.5rem;">
-                            <img src="static/images/disparity.webp?v=2026.03.08.1" alt="Disparity"
-                                style="max-width: 40%; height: auto;">
+                        <div class="figure-centered">
+                            <img src="static/images/disparity.webp?v=2026.07.31.3"
+                                alt="Multi-view sampling disparity" loading="lazy">
                         </div>
 
                         <p>
@@ -341,20 +417,20 @@
 
                         <p style="text-align:center;">
                             <span class="math-desktop">
-                                \[
-                                r^i_{min} = \min_{t\in T}{r^i_t}, \qquad
-                                r^i_{max} = \max_{t\in T}{r^i_t}, \qquad
-                                \rho^i = r^i_{max}/r^i_{min}.
-                                \]
+                            \[
+                            r^i_{min} = \min_{t\in T}{r^i_t}, \qquad
+                            r^i_{max} = \max_{t\in T}{r^i_t}, \qquad
+                            \rho^i = r^i_{max}/r^i_{min}.
+                            \]
                             </span>
                             <span class="math-mobile">
-                                \[
-                                \begin{gathered}
-                                r^i_{min} = \min_{t\in T}{r^i_t}, \qquad
-                                r^i_{max} = \max_{t\in T}{r^i_t}, \\
-                                \rho^i = r^i_{max}/r^i_{min}.
-                                \end{gathered}
-                                \]
+                            \[
+                            \begin{gathered}
+                            r^i_{min} = \min_{t\in T}{r^i_t}, \qquad
+                            r^i_{max} = \max_{t\in T}{r^i_t}, \\
+                            \rho^i = r^i_{max}/r^i_{min}.
+                            \end{gathered}
+                            \]
                             </span>
                         </p>
 
@@ -380,7 +456,7 @@
                         </p>
                     </div>
 
-                    <h4 class="title is-4">Super-Resolution Region Selection</h4>
+                    <h3 class="title is-4">Super-Resolution Region Selection</h3>
                     <div class="content has-text-justified">
                         <p>
                             Supervising high-resolution model updates requires pixel-wise weight maps for each
@@ -403,18 +479,18 @@
 
                         <p style="text-align:center;">
                             <span class="math-desktop">
-                                \[
-                                W'_t = \bigl(1 - \mathrm{Render}(\mathrm{score}_{\mathcal{G}})\bigr) +
-                                \mathrm{Render}(\mathbf{1}_{\mathcal{M}(t)}(\mathcal{G})).
-                                \]
+                            \[
+                            W'_t = \bigl(1 - \mathrm{Render}(\mathrm{score}_{\mathcal{G}})\bigr) +
+                            \mathrm{Render}(\mathbf{1}_{\mathcal{M}(t)}(\mathcal{G})).
+                            \]
                             </span>
                             <span class="math-mobile">
-                                \[
-                                \begin{aligned}
-                                W'_t &= \bigl(1 - \mathrm{Render}(\mathrm{score}_{\mathcal{G}})\bigr) \\
-                                &+ \mathrm{Render}(\mathbf{1}_{\mathcal{M}(t)}(\mathcal{G})).
-                                \end{aligned}
-                                \]
+                            \[
+                            \begin{aligned}
+                            W'_t &= \bigl(1 - \mathrm{Render}(\mathrm{score}_{\mathcal{G}})\bigr) \\
+                            &+ \mathrm{Render}(\mathbf{1}_{\mathcal{M}(t)}(\mathcal{G})).
+                            \end{aligned}
+                            \]
                             </span>
                         </p>
 
@@ -433,333 +509,340 @@
         </div>
     </section>
 
-    <section class="hero">
+    <section class="hero" id="results">
         <div class="hero-body">
             <div class="container is-max-desktop content has-text-centered">
                 <h2 class="title is-3">Results</h2>
             </div>
 
             <div class="container">
-                <div class=" has-text-centered">
-                    <div id="comparison-carousel" class="carousel results-carousel"
-                        style="border:none; box-shadow:none; outline:none; background:none;">
-                        <!-- === Page 1 === -->
-                        <div class="item">
-                            <div class="columns is-multiline is-centered">
-                                <div class="column is-half">
-                                    <div id="example1" class="bal-container-small">
-                                        <div class="bal-after">
-                                            <img src="./static/images/tnt_train.00000.srgs_manualBubbles.webp?v=2026.03.08.1"
-                                                alt="SRGS" loading="lazy">
-                                            <div class="bal-afterPosition afterLabel">
-                                                SRGS [Feng et al.]
-                                            </div>
-                                        </div>
-                                        <div class="bal-before">
-                                            <div class="bal-before-inset">
-                                                <img src="./static/images/tnt_train.00000.ours_manualBubbles.webp?v=2026.03.08.1"
-                                                    alt="Ours" loading="lazy">
-                                                <div class="bal-beforePosition beforeLabel">
-                                                    SplatSuRe (Ours)
+                <div class="has-text-centered">
+                    <!-- Plain .container, matching the width of the other results:
+                     the peeking neighbours are then clipped at the same edges. -->
+                    <div class="container">
+                        <div class="slideshow slideshow-no-swipe" tabindex="0" aria-label="Qualitative comparisons">
+                            <div class="slideshow-viewport">
+                                <div class="slideshow-track">
+                                    <div class="slideshow-slide">
+                                        <div class="columns is-multiline is-centered">
+                                            <div class="column is-half">
+                                                <div class="bal-container-small">
+                                                    <div class="bal-after">
+                                                        <img src="./static/images/tnt_train.00000.srgs_manualBubbles.webp?v=2026.07.31.3"
+                                                        alt="SRGS [Feng et al.] result on Train scene" loading="lazy">
+                                                        <div class="bal-afterPosition afterLabel">
+                                                            SRGS [Feng et al.]
+                                                        </div>
+                                                    </div>
+                                                    <div class="bal-before">
+                                                        <div class="bal-before-inset">
+                                                            <img src="./static/images/tnt_train.00000.ours_manualBubbles.webp?v=2026.07.31.3"
+                                                            alt="SplatSuRe result on Train scene" loading="lazy">
+                                                            <div class="bal-beforePosition beforeLabel">
+                                                                SplatSuRe (Ours)
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                    <div class="bal-handle">
+                                                        <span class="handle-left-arrow"></span>
+                                                        <span class="handle-right-arrow"></span>
+                                                    </div>
                                                 </div>
                                             </div>
-                                        </div>
-                                        <div class="bal-handle">
-                                            <span class=" handle-left-arrow"></span>
-                                            <span class="handle-right-arrow"></span>
+                                            <div class="column is-half">
+                                                <div class="bal-container-small">
+                                                    <div class="bal-after">
+                                                        <img src="./static/images/tnt_truck.00031.srgs_manualBubbles.webp?v=2026.07.31.3"
+                                                        alt="SRGS [Feng et al.] result on Truck scene" loading="lazy">
+                                                        <div class="bal-afterPosition afterLabel">
+                                                            SRGS [Feng et al.]
+                                                        </div>
+                                                    </div>
+                                                    <div class="bal-before">
+                                                        <div class="bal-before-inset">
+                                                            <img src="./static/images/tnt_truck.00031.ours_manualBubbles.webp?v=2026.07.31.3"
+                                                            alt="SplatSuRe result on Truck scene" loading="lazy">
+                                                            <div class="bal-beforePosition beforeLabel">
+                                                                SplatSuRe (Ours)
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                    <div class="bal-handle">
+                                                        <span class="handle-left-arrow"></span>
+                                                        <span class="handle-right-arrow"></span>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="column is-half">
+                                                <div class="bal-container-small">
+                                                    <div class="bal-after">
+                                                        <img src="./static/images/tnt_ballroom.00028.srgs_manualBubbles.webp?v=2026.07.31.3"
+                                                        alt="SRGS [Feng et al.] result on Ballroom scene" loading="lazy">
+                                                        <div class="bal-afterPosition afterLabel">
+                                                            SRGS [Feng et al.]
+                                                        </div>
+                                                    </div>
+                                                    <div class="bal-before">
+                                                        <div class="bal-before-inset">
+                                                            <img src="./static/images/tnt_ballroom.00028.ours_manualBubbles.webp?v=2026.07.31.3"
+                                                            alt="SplatSuRe result on Ballroom scene" loading="lazy">
+                                                            <div class="bal-beforePosition beforeLabel">
+                                                                SplatSuRe (Ours)
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                    <div class="bal-handle">
+                                                        <span class="handle-left-arrow"></span>
+                                                        <span class="handle-right-arrow"></span>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="column is-half">
+                                                <div class="bal-container-small">
+                                                    <div class="bal-after">
+                                                        <img src="./static/images/tnt_horse.00008.srgs_manualBubbles.webp?v=2026.07.31.3"
+                                                        alt="SRGS [Feng et al.] result on Horse scene" loading="lazy">
+                                                        <div class="bal-afterPosition afterLabel">
+                                                            SRGS [Feng et al.]
+                                                        </div>
+                                                    </div>
+                                                    <div class="bal-before">
+                                                        <div class="bal-before-inset">
+                                                            <img src="./static/images/tnt_horse.00008.ours_manualBubbles.webp?v=2026.07.31.3"
+                                                            alt="SplatSuRe result on Horse scene" loading="lazy">
+                                                            <div class="bal-beforePosition beforeLabel">
+                                                                SplatSuRe (Ours)
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                    <div class="bal-handle">
+                                                        <span class="handle-left-arrow"></span>
+                                                        <span class="handle-right-arrow"></span>
+                                                    </div>
+                                                </div>
+                                            </div>
                                         </div>
                                     </div>
-                                </div>
-
-                                <div class="column is-half">
-                                    <div id="example2" class="bal-container-small">
-                                        <div class="bal-after">
-                                            <img src="./static/images/tnt_truck.00031.srgs_manualBubbles.webp?v=2026.03.08.1"
-                                                alt="SRGS" loading="lazy">
-                                            <div class="bal-afterPosition afterLabel">
-                                                SRGS [Feng et al.]
-                                            </div>
-                                        </div>
-                                        <div class="bal-before">
-                                            <div class="bal-before-inset">
-                                                <img src="./static/images/tnt_truck.00031.ours_manualBubbles.webp?v=2026.03.08.1"
-                                                    alt="Ours" loading="lazy">
-                                                <div class="bal-beforePosition beforeLabel">
-                                                    SplatSuRe (Ours)
+                                    <div class="slideshow-slide">
+                                        <div class="columns is-multiline is-centered">
+                                            <div class="column is-half">
+                                                <div class="bal-container-small">
+                                                    <div class="bal-after">
+                                                        <img src="./static/images/tnt_barn.00051.srgs_manualBubbles.webp?v=2026.07.31.3"
+                                                        alt="SRGS [Feng et al.] result on Barn scene" loading="lazy">
+                                                        <div class="bal-afterPosition afterLabel">
+                                                            SRGS [Feng et al.]
+                                                        </div>
+                                                    </div>
+                                                    <div class="bal-before">
+                                                        <div class="bal-before-inset">
+                                                            <img src="./static/images/tnt_barn.00051.ours_manualBubbles.webp?v=2026.07.31.3"
+                                                            alt="SplatSuRe result on Barn scene" loading="lazy">
+                                                            <div class="bal-beforePosition beforeLabel">
+                                                                SplatSuRe (Ours)
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                    <div class="bal-handle">
+                                                        <span class="handle-left-arrow"></span>
+                                                        <span class="handle-right-arrow"></span>
+                                                    </div>
                                                 </div>
                                             </div>
-                                        </div>
-                                        <div class="bal-handle">
-                                            <span class=" handle-left-arrow"></span>
-                                            <span class="handle-right-arrow"></span>
+                                            <div class="column is-half">
+                                                <div class="bal-container-small">
+                                                    <div class="bal-after">
+                                                        <img src="./static/images/tnt_caterpillar.00004.srgs_manualBubbles.webp?v=2026.07.31.3"
+                                                        alt="SRGS [Feng et al.] result on Caterpillar scene" loading="lazy">
+                                                        <div class="bal-afterPosition afterLabel">
+                                                            SRGS [Feng et al.]
+                                                        </div>
+                                                    </div>
+                                                    <div class="bal-before">
+                                                        <div class="bal-before-inset">
+                                                            <img src="./static/images/tnt_caterpillar.00004.ours_manualBubbles.webp?v=2026.07.31.3"
+                                                            alt="SplatSuRe result on Caterpillar scene" loading="lazy">
+                                                            <div class="bal-beforePosition beforeLabel">
+                                                                SplatSuRe (Ours)
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                    <div class="bal-handle">
+                                                        <span class="handle-left-arrow"></span>
+                                                        <span class="handle-right-arrow"></span>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="column is-half">
+                                                <div class="bal-container-small">
+                                                    <div class="bal-after">
+                                                        <img src="./static/images/tnt_lighthouse.00015.srgs_manualBubbles.webp?v=2026.07.31.3"
+                                                        alt="SRGS [Feng et al.] result on Lighthouse scene" loading="lazy">
+                                                        <div class="bal-afterPosition afterLabel">
+                                                            SRGS [Feng et al.]
+                                                        </div>
+                                                    </div>
+                                                    <div class="bal-before">
+                                                        <div class="bal-before-inset">
+                                                            <img src="./static/images/tnt_lighthouse.00015.ours_manualBubbles.webp?v=2026.07.31.3"
+                                                            alt="SplatSuRe result on Lighthouse scene" loading="lazy">
+                                                            <div class="bal-beforePosition beforeLabel">
+                                                                SplatSuRe (Ours)
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                    <div class="bal-handle">
+                                                        <span class="handle-left-arrow"></span>
+                                                        <span class="handle-right-arrow"></span>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="column is-half">
+                                                <div class="bal-container-small">
+                                                    <div class="bal-after">
+                                                        <img src="./static/images/tnt_playground.00010.srgs_manualBubbles.webp?v=2026.07.31.3"
+                                                        alt="SRGS [Feng et al.] result on Playground scene" loading="lazy">
+                                                        <div class="bal-afterPosition afterLabel">
+                                                            SRGS [Feng et al.]
+                                                        </div>
+                                                    </div>
+                                                    <div class="bal-before">
+                                                        <div class="bal-before-inset">
+                                                            <img src="./static/images/tnt_playground.00010.ours_manualBubbles.webp?v=2026.07.31.3"
+                                                            alt="SplatSuRe result on Playground scene" loading="lazy">
+                                                            <div class="bal-beforePosition beforeLabel">
+                                                                SplatSuRe (Ours)
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                    <div class="bal-handle">
+                                                        <span class="handle-left-arrow"></span>
+                                                        <span class="handle-right-arrow"></span>
+                                                    </div>
+                                                </div>
+                                            </div>
                                         </div>
                                     </div>
-                                </div>
-
-                                <div class="column is-half">
-                                    <div id="example3" class="bal-container-small">
-                                        <div class="bal-after">
-                                            <img src="./static/images/tnt_ballroom.00028.srgs_manualBubbles.webp?v=2026.03.08.1"
-                                                alt="SRGS" loading="lazy">
-                                            <div class="bal-afterPosition afterLabel">
-                                                SRGS [Feng et al.]
-                                            </div>
-                                        </div>
-                                        <div class="bal-before">
-                                            <div class="bal-before-inset">
-                                                <img src="./static/images/tnt_ballroom.00028.ours_manualBubbles.webp?v=2026.03.08.1"
-                                                    alt="Ours" loading="lazy">
-                                                <div class="bal-beforePosition beforeLabel">
-                                                    SplatSuRe (Ours)
+                                    <div class="slideshow-slide">
+                                        <div class="columns is-multiline is-centered">
+                                            <div class="column is-half">
+                                                <div class="bal-container-small">
+                                                    <div class="bal-after">
+                                                        <img src="./static/images/tnt_ignatius.00007.srgs_manualBubbles.webp?v=2026.07.31.3"
+                                                        alt="SRGS [Feng et al.] result on Ignatius scene" loading="lazy">
+                                                        <div class="bal-afterPosition afterLabel">
+                                                            SRGS [Feng et al.]
+                                                        </div>
+                                                    </div>
+                                                    <div class="bal-before">
+                                                        <div class="bal-before-inset">
+                                                            <img src="./static/images/tnt_ignatius.00007.ours_manualBubbles.webp?v=2026.07.31.3"
+                                                            alt="SplatSuRe result on Ignatius scene" loading="lazy">
+                                                            <div class="bal-beforePosition beforeLabel">
+                                                                SplatSuRe (Ours)
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                    <div class="bal-handle">
+                                                        <span class="handle-left-arrow"></span>
+                                                        <span class="handle-right-arrow"></span>
+                                                    </div>
                                                 </div>
                                             </div>
-                                        </div>
-                                        <div class="bal-handle">
-                                            <span class=" handle-left-arrow"></span>
-                                            <span class="handle-right-arrow"></span>
-                                        </div>
-                                    </div>
-                                </div>
-
-                                <div class="column is-half">
-                                    <div id="example4" class="bal-container-small">
-                                        <div class="bal-after">
-                                            <img src="./static/images/tnt_horse.00008.srgs_manualBubbles.webp?v=2026.03.08.1"
-                                                alt="SRGS" loading="lazy">
-                                            <div class="bal-afterPosition afterLabel">
-                                                SRGS [Feng et al.]
-                                            </div>
-                                        </div>
-                                        <div class="bal-before">
-                                            <div class="bal-before-inset">
-                                                <img src="./static/images/tnt_horse.00008.ours_manualBubbles.webp?v=2026.03.08.1"
-                                                    alt="Ours" loading="lazy">
-                                                <div class="bal-beforePosition beforeLabel">
-                                                    SplatSuRe (Ours)
+                                            <div class="column is-half">
+                                                <div class="bal-container-small">
+                                                    <div class="bal-after">
+                                                        <img src="./static/images/tnt_panther.00009.srgs_manualBubbles.webp?v=2026.07.31.3"
+                                                        alt="SRGS [Feng et al.] result on Panther scene" loading="lazy">
+                                                        <div class="bal-afterPosition afterLabel">
+                                                            SRGS [Feng et al.]
+                                                        </div>
+                                                    </div>
+                                                    <div class="bal-before">
+                                                        <div class="bal-before-inset">
+                                                            <img src="./static/images/tnt_panther.00009.ours_manualBubbles.webp?v=2026.07.31.3"
+                                                            alt="SplatSuRe result on Panther scene" loading="lazy">
+                                                            <div class="bal-beforePosition beforeLabel">
+                                                                SplatSuRe (Ours)
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                    <div class="bal-handle">
+                                                        <span class="handle-left-arrow"></span>
+                                                        <span class="handle-right-arrow"></span>
+                                                    </div>
                                                 </div>
                                             </div>
-                                        </div>
-                                        <div class="bal-handle">
-                                            <span class=" handle-left-arrow"></span>
-                                            <span class="handle-right-arrow"></span>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-
-                        <!-- === Page 2 === -->
-                        <div class="item">
-                            <div class="columns is-multiline is-centered">
-                                <div class="column is-half">
-                                    <div id="example5" class="bal-container-small">
-                                        <div class="bal-after">
-                                            <img src="./static/images/tnt_barn.00051.srgs_manualBubbles.webp?v=2026.03.08.1"
-                                                alt="SRGS" loading="lazy">
-                                            <div class="bal-afterPosition afterLabel">
-                                                SRGS [Feng et al.]
-                                            </div>
-                                        </div>
-                                        <div class="bal-before">
-                                            <div class="bal-before-inset">
-                                                <img src="./static/images/tnt_barn.00051.ours_manualBubbles.webp?v=2026.03.08.1"
-                                                    alt="Ours" loading="lazy">
-                                                <div class="bal-beforePosition beforeLabel">
-                                                    SplatSuRe (Ours)
+                                            <div class="column is-half">
+                                                <div class="bal-container-small">
+                                                    <div class="bal-after">
+                                                        <img src="./static/images/db_drjohnson.00032.srgs_manualBubbles.webp?v=2026.07.31.3"
+                                                        alt="SRGS [Feng et al.] result on Dr. Johnson scene" loading="lazy">
+                                                        <div class="bal-afterPosition afterLabel">
+                                                            SRGS [Feng et al.]*
+                                                        </div>
+                                                    </div>
+                                                    <div class="bal-before">
+                                                        <div class="bal-before-inset">
+                                                            <img src="./static/images/db_drjohnson.00032.ours_manualBubbles.webp?v=2026.07.31.3"
+                                                            alt="SplatSuRe result on Dr. Johnson scene" loading="lazy">
+                                                            <div class="bal-beforePosition beforeLabel">
+                                                                SplatSuRe (Ours)*
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                    <div class="bal-handle">
+                                                        <span class="handle-left-arrow"></span>
+                                                        <span class="handle-right-arrow"></span>
+                                                    </div>
                                                 </div>
                                             </div>
-                                        </div>
-                                        <div class="bal-handle">
-                                            <span class=" handle-left-arrow"></span>
-                                            <span class="handle-right-arrow"></span>
-                                        </div>
-                                    </div>
-                                </div>
-
-                                <div class="column is-half">
-                                    <div id="example6" class="bal-container-small">
-                                        <div class="bal-after">
-                                            <img src="./static/images/tnt_caterpillar.00004.srgs_manualBubbles.webp?v=2026.03.08.1"
-                                                alt="SRGS" loading="lazy">
-                                            <div class="bal-afterPosition afterLabel">
-                                                SRGS [Feng et al.]
-                                            </div>
-                                        </div>
-                                        <div class="bal-before">
-                                            <div class="bal-before-inset">
-                                                <img src="./static/images/tnt_caterpillar.00004.ours_manualBubbles.webp?v=2026.03.08.1"
-                                                    alt="Ours" loading="lazy">
-                                                <div class="bal-beforePosition beforeLabel">
-                                                    SplatSuRe (Ours)
+                                            <div class="column is-half">
+                                                <div class="bal-container-small">
+                                                    <div class="bal-after">
+                                                        <img src="./static/images/m360_counter.00010.srgs_manualBubbles.webp?v=2026.07.31.3"
+                                                        alt="SRGS [Feng et al.] result on Counter scene" loading="lazy">
+                                                        <div class="bal-afterPosition afterLabel">
+                                                            SRGS [Feng et al.]
+                                                        </div>
+                                                    </div>
+                                                    <div class="bal-before">
+                                                        <div class="bal-before-inset">
+                                                            <img src="./static/images/m360_counter.00010.ours_manualBubbles.webp?v=2026.07.31.3"
+                                                            alt="SplatSuRe result on Counter scene" loading="lazy">
+                                                            <div class="bal-beforePosition beforeLabel">
+                                                                SplatSuRe (Ours)
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                    <div class="bal-handle">
+                                                        <span class="handle-left-arrow"></span>
+                                                        <span class="handle-right-arrow"></span>
+                                                    </div>
                                                 </div>
                                             </div>
-                                        </div>
-                                        <div class="bal-handle">
-                                            <span class=" handle-left-arrow"></span>
-                                            <span class="handle-right-arrow"></span>
-                                        </div>
-                                    </div>
-                                </div>
-
-                                <div class="column is-half">
-                                    <div id="example7" class="bal-container-small">
-                                        <div class="bal-after">
-                                            <img src="./static/images/tnt_lighthouse.00015.srgs_manualBubbles.webp?v=2026.03.08.1"
-                                                alt="SRGS" loading="lazy">
-                                            <div class="bal-afterPosition afterLabel">
-                                                SRGS [Feng et al.]
-                                            </div>
-                                        </div>
-                                        <div class="bal-before">
-                                            <div class="bal-before-inset">
-                                                <img src="./static/images/tnt_lighthouse.00015.ours_manualBubbles.webp?v=2026.03.08.1"
-                                                    alt="Ours" loading="lazy">
-                                                <div class="bal-beforePosition beforeLabel">
-                                                    SplatSuRe (Ours)
-                                                </div>
-                                            </div>
-                                        </div>
-                                        <div class="bal-handle">
-                                            <span class=" handle-left-arrow"></span>
-                                            <span class="handle-right-arrow"></span>
-                                        </div>
-                                    </div>
-                                </div>
-
-                                <div class="column is-half">
-                                    <div id="example8" class="bal-container-small">
-                                        <div class="bal-after">
-                                            <img src="./static/images/tnt_playground.00010.srgs_manualBubbles.webp?v=2026.03.08.1"
-                                                alt="SRGS" loading="lazy">
-                                            <div class="bal-afterPosition afterLabel">
-                                                SRGS [Feng et al.]
-                                            </div>
-                                        </div>
-                                        <div class="bal-before">
-                                            <div class="bal-before-inset">
-                                                <img src="./static/images/tnt_playground.00010.ours_manualBubbles.webp?v=2026.03.08.1"
-                                                    alt="Ours" loading="lazy">
-                                                <div class="bal-beforePosition beforeLabel">
-                                                    SplatSuRe (Ours)
-                                                </div>
-                                            </div>
-                                        </div>
-                                        <div class="bal-handle">
-                                            <span class=" handle-left-arrow"></span>
-                                            <span class="handle-right-arrow"></span>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-
-                        <!-- === Page 3 === -->
-                        <div class="item">
-                            <div class="columns is-multiline is-centered">
-                                <div class="column is-half">
-                                    <div id="example9" class="bal-container-small">
-                                        <div class="bal-after">
-                                            <img src="./static/images/tnt_ignatius.00007.srgs_manualBubbles.webp?v=2026.03.08.1"
-                                                alt="SRGS" loading="lazy">
-                                            <div class="bal-afterPosition afterLabel">
-                                                SRGS [Feng et al.]
-                                            </div>
-                                        </div>
-                                        <div class="bal-before">
-                                            <div class="bal-before-inset">
-                                                <img src="./static/images/tnt_ignatius.00007.ours_manualBubbles.webp?v=2026.03.08.1"
-                                                    alt="Ours" loading="lazy">
-                                                <div class="bal-beforePosition beforeLabel">
-                                                    SplatSuRe (Ours)
-                                                </div>
-                                            </div>
-                                        </div>
-                                        <div class="bal-handle">
-                                            <span class=" handle-left-arrow"></span>
-                                            <span class="handle-right-arrow"></span>
-                                        </div>
-                                    </div>
-                                </div>
-
-                                <div class="column is-half">
-                                    <div id="example10" class="bal-container-small">
-                                        <div class="bal-after">
-                                            <img src="./static/images/tnt_panther.00009.srgs_manualBubbles.webp?v=2026.03.08.1"
-                                                alt="SRGS" loading="lazy">
-                                            <div class="bal-afterPosition afterLabel">
-                                                SRGS [Feng et al.]
-                                            </div>
-                                        </div>
-                                        <div class="bal-before">
-                                            <div class="bal-before-inset">
-                                                <img src="./static/images/tnt_panther.00009.ours_manualBubbles.webp?v=2026.03.08.1"
-                                                    alt="Ours" loading="lazy">
-                                                <div class="bal-beforePosition beforeLabel">
-                                                    SplatSuRe (Ours)
-                                                </div>
-                                            </div>
-                                        </div>
-                                        <div class="bal-handle">
-                                            <span class=" handle-left-arrow"></span>
-                                            <span class="handle-right-arrow"></span>
-                                        </div>
-                                    </div>
-                                </div>
-
-                                <div class="column is-half">
-                                    <div id="example11" class="bal-container-small">
-                                        <div class="bal-after">
-                                            <img src="./static/images/db_drjohnson.00032.srgs_manualBubbles.webp?v=2026.03.08.1"
-                                                alt="SRGS" loading="lazy">
-                                            <div class="bal-afterPosition afterLabel">
-                                                SRGS [Feng et al.]*
-                                            </div>
-                                        </div>
-                                        <div class="bal-before">
-                                            <div class="bal-before-inset">
-                                                <img src="./static/images/db_drjohnson.00032.ours_manualBubbles.webp?v=2026.03.08.1"
-                                                    alt="Ours" loading="lazy">
-                                                <div class="bal-beforePosition beforeLabel">
-                                                    SplatSuRe (Ours)*
-                                                </div>
-                                            </div>
-                                        </div>
-                                        <div class="bal-handle">
-                                            <span class=" handle-left-arrow"></span>
-                                            <span class="handle-right-arrow"></span>
-                                        </div>
-                                    </div>
-                                </div>
-
-                                <div class="column is-half">
-                                    <div id="example12" class="bal-container-small">
-                                        <div class="bal-after">
-                                            <img src="./static/images/m360_counter.00010.srgs_manualBubbles.webp?v=2026.03.08.1"
-                                                alt="SRGS" loading="lazy">
-                                            <div class="bal-afterPosition afterLabel">
-                                                SRGS [Feng et al.]
-                                            </div>
-                                        </div>
-                                        <div class="bal-before">
-                                            <div class="bal-before-inset">
-                                                <img src="./static/images/m360_counter.00010.ours_manualBubbles.webp?v=2026.03.08.1"
-                                                    alt="Ours" loading="lazy">
-                                                <div class="bal-beforePosition beforeLabel">
-                                                    SplatSuRe (Ours)
-                                                </div>
-                                            </div>
-                                        </div>
-                                        <div class="bal-handle">
-                                            <span class=" handle-left-arrow"></span>
-                                            <span class="handle-right-arrow"></span>
                                         </div>
                                     </div>
                                 </div>
                             </div>
+                            <div class="slideshow-controls">
+                                <button type="button" class="slideshow-prev" aria-label="Previous result">
+                                    <svg viewBox="0 0 24 24" width="13" height="13" aria-hidden="true" focusable="false">
+                                        <path fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"
+                                        stroke-linejoin="round" d="M15 5l-7 7 7 7" />
+                                    </svg>
+                                </button>
+                                <button type="button" class="slideshow-next" aria-label="Next result">
+                                    <svg viewBox="0 0 24 24" width="13" height="13" aria-hidden="true" focusable="false">
+                                        <path fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"
+                                        stroke-linejoin="round" d="M9 5l7 7-7 7" />
+                                    </svg>
+                                </button>
+                            </div>
+                            <div class="slideshow-status" aria-live="polite"></div>
                         </div>
                     </div>
-                    <p class="subtitle is-6"
-                        style="margin-top: -1em; color: #555; line-height: 1.6; font-size: 0.9rem;">
+                    <p class="table-note">
                         Training images from Tanks & Temples and Mip-NeRF 360 are downsampled by 8× and then
                         super-resolved by 4×.<br>
                         * Training images from Deep Blending are downsampled by 4× and then super-resolved by 4×.
@@ -769,34 +852,27 @@
         </div>
     </section>
 
-    <script>
-        document.addEventListener('DOMContentLoaded', function () {
-            // Initialize Bulma carousel
-            bulmaCarousel.attach('#comparison-carousel', {
-                slidesToScroll: 1,
-                slidesToShow: 1,
-                loop: true,
-                autoplay: false,
-                pagination: true
-            });
+    <section class="section" id="video">
+        <div class="container is-max-desktop">
+            <div class="columns is-centered has-text-centered">
+                <div class="column is-four-fifths">
+                    <h2 class="title is-3">Video</h2>
+                    <div class="publication-video">
+                        <iframe width="560" height="315" src="https://www.youtube.com/embed/2cXgRLQhU2I"
+                        title="SplatSuRe: CVPR 2026 presentation" allow="accelerometer; autoplay;
+                    encrypted-media; " allowfullscreen loading="lazy"></iframe>
 
-            // Initialize all BeforeAfter sliders
-            ['#example1', '#example2', '#example3', '#example4',
-                '#example5', '#example6', '#example7', '#example8',
-                '#example9', '#example10', '#example11', '#example12']
-                .forEach(id => {
-                    if (document.querySelector(id)) new BeforeAfter({ id });
-                });
-        });
-    </script>
+                </div>
+            </div>
+        </div>
+    </div>
+    </section>
 
     <section class="section" id="BibTeX">
         <div class="container is-max-desktop content">
-            <h2 class="title">BibTeX</h2>
-            <div class="bibtex-container"
-                style="position: relative; background: #f5f5f5; border-radius: 8px; padding: 0.5rem;">
-                <button class="copy-code-btn" id="copy-btn"
-                    style="position: absolute; top: 0.5rem; right: 0.5rem; padding: 0.5rem; background: #ffffff; border: 1px solid #e5e5e5; border-radius: 4px; color: #595959; font-size: 1rem; cursor: pointer; transition: all 0.2s ease; display: flex; align-items: center; justify-content: center; z-index: 10; line-height: 1;">
+            <h2 class="title is-3">BibTeX</h2>
+            <div class="bibtex-container">
+                <button class="copy-code-btn" id="copy-btn" aria-label="Copy BibTeX to clipboard">
                     <i class="fa fa-copy"></i>
                 </button>
                 <pre><code id="bibtex-content">@InProceedings{Asthana2025SplatSuRe,
@@ -810,35 +886,42 @@
 }</code></pre>
             </div>
 
-            <h2 class="title">Related Work</h2>
-            SplatSuRe formed the foundation of the winning solution in Track 1 of the <a
-                href="https://openaccess.thecvf.com/content/CVPR2026W/NTIRE/papers/Wang_NTIRE_2026_Challenge_on_3D_Content_Super-Resolution_Methods_and_Results_CVPRW_2026_paper.pdf">1st
-                NTIRE Challenge on 3D Content Super-Resolution</a> at <a href="https://www.cvlai.net/ntire/2026/">CVPR
-                2026</a>.
+            <h2 class="title is-3">Related Work</h2>
+            SplatSuRe formed the foundation of the NJUST_CSA team's winning solution in Track 1 of the <a
+            href="https://openaccess.thecvf.com/content/CVPR2026W/NTIRE/papers/Wang_NTIRE_2026_Challenge_on_3D_Content_Super-Resolution_Methods_and_Results_CVPRW_2026_paper.pdf"
+            target="_blank" rel="noopener noreferrer">1st
+            NTIRE Challenge on 3D Content Super-Resolution</a> at <a href="https://www.cvlai.net/ntire/2026/"
+            target="_blank" rel="noopener noreferrer">CVPR
+            2026</a>.
         </div>
     </section>
+    </main>
 
     <footer class="footer">
         <div class="container">
             <div class="content has-text-centered">
                 <a class="icon-link" href="https://arxiv.org/pdf/2512.02172" target="_blank" rel="noopener noreferrer"
-                    title="SplatSuRe: Selective Super-Resolution for Multi-view Consistent 3D Gaussian Splatting">
-                    <i class="fas fa-file-pdf"></i>
+                title="SplatSuRe: Selective Super-Resolution for Multi-view Consistent 3D Gaussian Splatting"
+                aria-label="Paper PDF on arXiv">
+                <i class="fas fa-file-pdf" aria-hidden="true"></i>
                 </a>
-                <a class="icon-link" href="https://arxiv.org/abs/2512.02172" target="_blank" rel="noopener noreferrer">
-                    <i class="ai ai-arxiv"></i>
+                <a class="icon-link" href="https://arxiv.org/abs/2512.02172" target="_blank" rel="noopener noreferrer"
+                aria-label="arXiv abstract page">
+                <i class="ai ai-arxiv" aria-hidden="true"></i>
                 </a>
-                <a class="icon-link" href="static/files/splatsure_poster.pdf?v=2026.03.08.1" target="_blank"
-                    rel="noopener noreferrer"
-                    title="SplatSuRe: Selective Super-Resolution for Multi-view Consistent 3D Gaussian Splatting">
-                    <i class="fas fa-image"></i>
+                <a class="icon-link" href="static/files/splatsure_poster.pdf?v=2026.07.31.3" target="_blank"
+                rel="noopener noreferrer"
+                title="SplatSuRe: Selective Super-Resolution for Multi-view Consistent 3D Gaussian Splatting"
+                aria-label="Poster PDF">
+                <i class="fas fa-image" aria-hidden="true"></i>
                 </a>
-                <a class="icon-link" href="https://youtu.be/2cXgRLQhU2I" target="_blank" rel="noopener noreferrer">
-                    <i class="fab fa-youtube"></i>
+                <a class="icon-link" href="https://youtu.be/2cXgRLQhU2I" target="_blank" rel="noopener noreferrer"
+                aria-label="Presentation video on YouTube">
+                <i class="fab fa-youtube" aria-hidden="true"></i>
                 </a>
                 <a class="icon-link" href="https://github.com/pranav-asthana/SplatSuRe" target="_blank"
-                    rel="noopener noreferrer" disabled>
-                    <i class="fab fa-github"></i>
+                rel="noopener noreferrer" aria-label="Code on GitHub">
+                <i class="fab fa-github" aria-hidden="true"></i>
                 </a>
             </div>
             <div class="columns is-centered">
@@ -859,9 +942,9 @@
                     <div class="content has-text-centered">
                         <p>
                             We thank the authors of <a href="https://github.com/nerfies/nerfies.github.io/tree/main"
-                                target="_blank" rel="noopener noreferrer">Nerfies</a>
+                            target="_blank" rel="noopener noreferrer">Nerfies</a>
                             for generously <a href="https://github.com/splatsure/splatsure.github.io" target="_blank"
-                                rel="noopener noreferrer">open-sourcing</a>
+                            rel="noopener noreferrer">open-sourcing</a>
                             the template used in this website.
                         </p>
                     </div>

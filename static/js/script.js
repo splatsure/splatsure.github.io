@@ -82,6 +82,13 @@ class BeforeAfter {
         container.addEventListener('mouseenter', () => { rect = null; });
         container.addEventListener('mousemove', (e) => setPosition(e.clientX),
             { passive: true });
+        container.addEventListener('mouseleave', () => {
+            if (window.matchMedia &&
+                !window.matchMedia('(hover: hover) and (pointer: fine)').matches) return;
+            before.style.width = '50%';
+            handle.style.left = '50%';
+            rect = null;
+        }, { passive: true });
         window.addEventListener('resize', () => { rect = null; }, { passive: true });
     }
 }

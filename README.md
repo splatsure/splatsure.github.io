@@ -55,6 +55,8 @@ terms along.
   scrolling, so the browser would otherwise defer it indefinitely and the first step round the
   ring would show empty boxes. The one video here is the hero comparison slider, which is above
   the fold and eager by design: the slider initialises from its own `onplay` handler.
+- **Dual-codec video delivery.** The hero comparison prefers AV1 and retains its existing
+  fast-start H.264 source as a compatibility fallback.
 - **Space reserved before decode.** Images and canvases declare their source aspect ratio, so
   nothing shifts as media arrives.
 - **`cache_bust.py`** stamps a version query on every local asset — in the HTML, in `url()`
@@ -138,9 +140,9 @@ terms along.
 - **Results carousel** (`slideshow.js`, `slideshow.css`)  
   A dependency-free replacement for bulma-carousel, which needed jQuery and ~40 KB of library to do this. The track is a true ring: each slide is positioned by its *cyclic* distance from the active one, so last-to-first animates as one step rather than snapping across a seam. Draggable by mouse and touch; deliberately no auto-advance, since yanking a result away mid-inspection is worse than a click. Only the visible slide decodes — the rest are paused via `IntersectionObserver`. On phones the peek is dropped so the active slide takes the full column, and the neighbours sit off-screen behind a clip rather than being faded out, so a step is one transform on one curve instead of a fade and a slide fighting each other.
 - **Before/after image sliders** (`script.js`)  
-  Draggable split comparisons. Discovered by class rather than by a hand-maintained list of ids, so the list cannot drift out of sync with the markup. The container's aspect ratio is declared inline per slider from its own image dimensions, so the box is reserved before the image decodes and stepping the carousel does not jump.
+  Draggable split comparisons. On desktop the divider snaps back to 50/50 when the pointer leaves. Discovered by class rather than by a hand-maintained list of ids, so the list cannot drift out of sync with the markup. The container's aspect ratio is declared inline per slider from its own image dimensions, so the box is reserved before the image decodes and stepping the carousel does not jump.
 - **Video comparison sliders** (`video_comparison.js`)  
-  Side-by-side video with a draggable divider, drawn to a canvas. The draw loop runs only while the canvas is on screen and the clip is playing, so two sliders do not burn CPU for the whole page. The backing store is capped at 2× DPR — beyond that the extra pixels cost real per-frame time for no perceptible gain. The container is sized to the canvas, so the rounded, shadowed surface always coincides with the picture.
+  Side-by-side video with a draggable divider, drawn to a canvas. On desktop the divider snaps back to its 50/50 default when the pointer leaves. The draw loop runs only while the canvas is on screen and the clip is playing, so two sliders do not burn CPU for the whole page. The backing store is capped at 2× DPR — beyond that the extra pixels cost real per-frame time for no perceptible gain. The container is sized to the canvas, so the rounded, shadowed surface always coincides with the picture.
 - **In-page PDF viewer** (`pdf-modal.js`)  
   Opens any PDF link in a focus-trapped overlay, loading PDF.js from cdnjs on first use rather than shipping it, and falling back to the browser's own viewer on mobile. A poster link is rewritten to its `_viewer.pdf` twin before being handed to the iframe — a conference poster is authored at print resolution, so the original is several megabytes that no on-screen reader needs.
 - **Footer colophon** (`.colophon` in `theme.css`)  
@@ -153,6 +155,8 @@ the carousel, the theme switcher, `cache_bust.py` and the `tools/` scripts. Wher
 to all of them it is made in each, so the shared files are byte-identical once the version query
 strings are normalised. Read any of them as reference code, and borrow freely:
 
+- **[GOFish](https://3dgofish.github.io/)** — [source](https://github.com/3dgofish/3dgofish.github.io)
+- **[RIDE-Splat](https://ridesplat.github.io/)** — [source](https://github.com/ridesplat/ridesplat.github.io)
 - **[PUP 3D-GS](https://pup3dgs.github.io/)** — [source](https://github.com/pup3dgs/pup3dgs.github.io)
 - **[Speedy-Splat](https://speedysplat.github.io/)** — [source](https://github.com/speedysplat/speedysplat.github.io)
 - **[SpeeDe3DGS](https://speede3dgs.github.io/)** — [source](https://github.com/speede3dgs/speede3dgs.github.io)
@@ -160,9 +164,8 @@ strings are normalised. Read any of them as reference code, and borrow freely:
 
 My personal site, **[tuallen.github.io](https://tuallen.github.io/)**
 ([source](https://github.com/tuallen/tuallen.github.io)), is a separate lineage — a different
-template, no Bulma, its own component system — but the carousel behaviour, the theme toggle and
-the cache-busting approach here were all worked out there first, so it is the closest thing to a
-reference implementation for those.
+template, no Bulma, and its own component system — but it shares the carousel behaviour, theme
+toggle, cache-busting approach, and other web-delivery conventions used across these sites.
 
 If you are starting a paper page from scratch, take Nerfies as the base and treat these as worked
 examples of where to go next. Anything from these repositories carries the CC BY-SA 4.0 terms
